@@ -111,9 +111,8 @@ main {
     background-color: #E5E5E5;
 }
 
-/* TODO: implement this on every buttons later */
 .section_add_button:hover {
-    color: blue;
+    color: #0075DE;
 }
 
 .section_delete_button {
@@ -121,6 +120,10 @@ main {
     float: right;
     margin-left: 16px;
     background-color: #E5E5E5;
+}
+
+.section_delete_button:hover {
+    color: #FF4343;
 }
 
 .number_box {
@@ -154,6 +157,10 @@ main {
 
 .box_delete_button {
     float: right;
+}
+
+.box_delete_button:hover {
+    color: #FF4343;
 }
 
 .box_title_text {
@@ -205,6 +212,8 @@ main {
 .sidebar {
     /* TODO: display none should be changed with js */
     /*display: none;*/
+    visibility: hidden;
+    opacity: 0;
     position: fixed;
     z-index: 1;
     top: 0;
@@ -214,6 +223,7 @@ main {
     padding: 40px;
     background-color: #FFFFFF;
     box-shadow: rgba(204, 204, 204, 0.5);
+    transition: .5s ease-in-out;
 }
 
 #sidebar_close_button {
