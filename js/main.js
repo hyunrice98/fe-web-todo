@@ -1,7 +1,8 @@
-import {clickMenuBar, clickSidebarClose} from "./sidebarHandler.js";
-
-
+import {clickHeaderMenuButton, clickSidebarCloseButton} from "./sidebarHandler.js";
+import {clickBoxDeleteButton, clickPopupCancelButton} from "./popupHandler.js";
 
 // Menubar Showing
-clickMenuBar();
-clickSidebarClose();
+clickHeaderMenuButton();
+clickSidebarCloseButton();
+clickBoxDeleteButton();
+clickPopupCancelButton();

@@ -1,17 +1,17 @@
-const sidebarHandler = document.getElementById("sidebar");
+const sidebar = document.getElementById("sidebar");
 
-function clickMenuBar() {
+function clickHeaderMenuButton() {
     document.querySelector("#header_menu_button").addEventListener("click", () => {
-        sidebarHandler.style.visibility = "visible";
-        sidebarHandler.style.opacity = "1";
+        sidebar.style.visibility = "visible";
+        sidebar.style.opacity = "1";
     });
 }
 
-function clickSidebarClose() {
+function clickSidebarCloseButton() {
     document.querySelector("#sidebar_close_button").addEventListener("click", () => {
-        sidebarHandler.style.visibility = "hidden";
-        sidebarHandler.style.opacity = "0";
+        sidebar.style.visibility = "hidden";
+        sidebar.style.opacity = "0";
     });
 }
 
-export {clickMenuBar, clickSidebarClose}
+export {clickHeaderMenuButton, clickSidebarCloseButton}
