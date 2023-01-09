@@ -52,6 +52,11 @@ textarea {
     background-color: #0075DE;
 }
 
+ol {
+    list-style: none;
+    padding: 0;
+}
+
 /* Header */
 header {
     display: flex;

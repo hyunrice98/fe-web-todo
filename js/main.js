@@ -1,4 +1,4 @@
-import {clickMenuBar, clickSidebarClose} from "./sidebar.js";
+import {clickMenuBar, clickSidebarClose} from "./sidebarHandler.js";
 
 
 

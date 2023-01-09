@@ -23,24 +23,24 @@
             <span class="material-symbols-outlined section_add_button">add</span>
             <span class="material-symbols-outlined section_delete_button">close</span>
         </div>
-        <div class="section_main">
-            <div class="box">
+        <ol class="section_main">
+            <li class="box">
                 <div class="box_title">
                     <p class="box_title_text">GitHub 공부하기</p>
                     <span class="material-symbols-outlined box_delete_button">close</span>
                 </div>
                 <p class="box_main_text">add, commit, push</p>
                 <p class="box_author_text">author by web</p>
-            </div>
-            <div class="box">
+            </li>
+            <li class="box">
                 <div class="box_title">
                     <p class="box_title_text">블로그에 포스팅할 것</p>
                     <span class="material-symbols-outlined box_delete_button">close</span>
                 </div>
                 <p class="box_main_text">* Github 공부내용 *모던 자바스크립트 1장 공부내용</p>
                 <p class="box_author_text">author by web</p>
-            </div>
-        </div>
+            </li>
+        </ol>
     </div>
     <div class="section" id="section2">
         <div class="section_header">
@@ -49,8 +49,8 @@
             <span class="material-symbols-outlined section_add_button">add</span>
             <span class="material-symbols-outlined section_delete_button">close</span>
         </div>
-        <div class="section_main">
-            <div class="box box_addition">
+        <ol class="section_main">
+            <li class="box box_addition">
                 <label>
                     <input class="box_title_text box_addition_title" placeholder="제목을 입력하세요" type="text">
                 </label>
@@ -61,8 +61,8 @@
                     <button class="grey_button">취소</button>
                     <button class="blue_button">등록</button>
                 </div>
-            </div>
-        </div>
+            </li>
+        </ol>
     </div>
     <div class="section" id="section3">
         <div class="section_header">
@@ -71,16 +71,16 @@
             <span class="material-symbols-outlined section_add_button">add</span>
             <span class="material-symbols-outlined section_delete_button">close</span>
         </div>
-        <div class="section_main">
-            <div class="box box_deletion">
+        <ol class="section_main">
+            <li class="box box_deletion">
                 <div class="box_title">
                     <p class="box_title_text">GitHub 공부하기</p>
                     <span class="material-symbols-outlined box_delete_button">close</span>
                 </div>
                 <p class="box_main_text">add, commit, push</p>
                 <p class="box_author_text">author by web</p>
-            </div>
-        </div>
+            </li>
+        </ol>
     </div>
 </main>
 
@@ -89,38 +89,40 @@
     <button type="button" id="sidebar_close_button">
         <img src="Icon/icon_close.png" alt="menu">
     </button>
-    <div class="sidebar_block">
-        <p class="sidebar_block_emoji">🥳</p>
-        <div class="sidebar_block_text_container">
-            <p class="sidebar_block_name">@sam</p>
-            <p class="sidebar_block_text">HTML/CSS 공부하기를 해야할 일에서 하고 있는 일로 이동하였습니다.</p>
-            <p class="sidebar_block_time">1분 전</p>
-        </div>
-    </div>
-    <div class="sidebar_block">
-        <p class="sidebar_block_emoji">🥳</p>
-        <div class="sidebar_block_text_container">
-            <p class="sidebar_block_name">@sam</p>
-            <p class="sidebar_block_text">HTML/CSS 공부하기를 해야할 일에서 하고 있는 일로 이동하였습니다.</p>
-            <p class="sidebar_block_time">1분 전</p>
-        </div>
-    </div>
-    <div class="sidebar_block">
-        <p class="sidebar_block_emoji">🥳</p>
-        <div class="sidebar_block_text_container">
-            <p class="sidebar_block_name">@sam</p>
-            <p class="sidebar_block_text">HTML/CSS 공부하기를 해야할 일에서 하고 있는 일로 이동하였습니다.</p>
-            <p class="sidebar_block_time">1분 전</p>
-        </div>
-    </div>
-    <div class="sidebar_block">
-        <p class="sidebar_block_emoji">🥳</p>
-        <div class="sidebar_block_text_container">
-            <p class="sidebar_block_name">@sam</p>
-            <p class="sidebar_block_text">HTML/CSS 공부하기를 해야할 일에서 하고 있는 일로 이동하였습니다.</p>
-            <p class="sidebar_block_time">1분 전</p>
-        </div>
-    </div>
+    <ol id="sidebar_blocks">
+        <li class="sidebar_block">
+            <p class="sidebar_block_emoji">🥳</p>
+            <div class="sidebar_block_text_container">
+                <p class="sidebar_block_name">@sam</p>
+                <p class="sidebar_block_text">HTML/CSS 공부하기를 해야할 일에서 하고 있는 일로 이동하였습니다.</p>
+                <p class="sidebar_block_time">1분 전</p>
+            </div>
+        </li>
+        <li class="sidebar_block">
+            <p class="sidebar_block_emoji">🥳</p>
+            <div class="sidebar_block_text_container">
+                <p class="sidebar_block_name">@sam</p>
+                <p class="sidebar_block_text">HTML/CSS 공부하기를 해야할 일에서 하고 있는 일로 이동하였습니다.</p>
+                <p class="sidebar_block_time">1분 전</p>
+            </div>
+        </li>
+        <li class="sidebar_block">
+            <p class="sidebar_block_emoji">🥳</p>
+            <div class="sidebar_block_text_container">
+                <p class="sidebar_block_name">@sam</p>
+                <p class="sidebar_block_text">HTML/CSS 공부하기를 해야할 일에서 하고 있는 일로 이동하였습니다.</p>
+                <p class="sidebar_block_time">1분 전</p>
+            </div>
+        </li>
+        <li class="sidebar_block">
+            <p class="sidebar_block_emoji">🥳</p>
+            <div class="sidebar_block_text_container">
+                <p class="sidebar_block_name">@sam</p>
+                <p class="sidebar_block_text">HTML/CSS 공부하기를 해야할 일에서 하고 있는 일로 이동하였습니다.</p>
+                <p class="sidebar_block_time">1분 전</p>
+            </div>
+        </li>
+    </ol>
 </div>
 
 <!-- Popup -->
