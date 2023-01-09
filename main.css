@@ -16,7 +16,7 @@ p, input {
 button {
     display: inline;
     border: none;
-    background-color: white;
+    background-color: #FFFFFF;
 }
 
 input {
@@ -47,7 +47,7 @@ textarea {
     flex: 1;
     height: 40px;
     margin-left: 8px;
-    color: white;
+    color: #FFFFFF;
     border-radius: 6px;
     background-color: #0075DE;
 }
@@ -111,6 +111,11 @@ main {
     background-color: #E5E5E5;
 }
 
+/* TODO: implement this on every buttons later */
+.section_add_button:hover {
+    color: blue;
+}
+
 .section_delete_button {
     display: inline-block;
     float: right;
@@ -136,7 +141,7 @@ main {
     margin-bottom: 16px;
     padding: 0 16px 16px;
     border-radius: 6px;
-    background-color: white;
+    background-color: #FFFFFF;
     box-shadow: 0 1px 30px rgba(224, 224, 224, 0.3);
 }
 
@@ -264,7 +269,7 @@ main {
     padding: 24px;
     transform: translate(-50%, -50%);
     border-radius: 6px;
-    background-color: white;
+    background-color: #FFFFFF;
 }
 
 .popup_text {
