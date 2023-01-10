@@ -76,9 +76,14 @@ header {
 
 /* Main */
 main {
+    /*position: relative;*/
+    /*display: flex;*/
+    /*width: 75%;*/
+}
+
+#section_holder {
     position: relative;
     display: flex;
-    /*width: 75%;*/
 }
 
 .section {

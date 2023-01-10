@@ -15,73 +15,8 @@
     </button>
 </header>
 
-<main>
-    <div class="section" id="section1">
-        <div class="section_header">
-            <p class="section_header_text">해야할 일</p>
-            <div class="number_box">2</div>
-            <span class="material-symbols-outlined section_add_button">add</span>
-            <span class="material-symbols-outlined section_delete_button">close</span>
-        </div>
-        <ol class="section_main">
-            <li class="box">
-                <div class="box_title">
-                    <p class="box_title_text">GitHub 공부하기</p>
-                    <span class="material-symbols-outlined box_delete_button">close</span>
-                </div>
-                <p class="box_main_text">add, commit, push</p>
-                <p class="box_author_text">author by web</p>
-            </li>
-            <li class="box">
-                <div class="box_title">
-                    <p class="box_title_text">블로그에 포스팅할 것</p>
-                    <span class="material-symbols-outlined box_delete_button">close</span>
-                </div>
-                <p class="box_main_text">* Github 공부내용 *모던 자바스크립트 1장 공부내용</p>
-                <p class="box_author_text">author by web</p>
-            </li>
-        </ol>
-    </div>
-    <div class="section" id="section2">
-        <div class="section_header">
-            <p class="section_header_text">하고 있는 일</p>
-            <div class="number_box">1</div>
-            <span class="material-symbols-outlined section_add_button">add</span>
-            <span class="material-symbols-outlined section_delete_button">close</span>
-        </div>
-        <ol class="section_main">
-            <li class="box box_addition">
-                <label>
-                    <input class="box_title_text box_addition_title" placeholder="제목을 입력하세요" type="text">
-                </label>
-                <label>
-                    <textarea class="box_main_text box_addition_text" placeholder="내용을 입력하세요" rows="1"></textarea>
-                </label>
-                <div class="button_container">
-                    <button class="grey_button">취소</button>
-                    <button class="blue_button">등록</button>
-                </div>
-            </li>
-        </ol>
-    </div>
-    <div class="section" id="section3">
-        <div class="section_header">
-            <p class="section_header_text">완료한 일</p>
-            <div class="number_box">1</div>
-            <span class="material-symbols-outlined section_add_button">add</span>
-            <span class="material-symbols-outlined section_delete_button">close</span>
-        </div>
-        <ol class="section_main">
-            <li class="box box_deletion">
-                <div class="box_title">
-                    <p class="box_title_text">GitHub 공부하기</p>
-                    <span class="material-symbols-outlined box_delete_button">close</span>
-                </div>
-                <p class="box_main_text">add, commit, push</p>
-                <p class="box_author_text">author by web</p>
-            </li>
-        </ol>
-    </div>
+<main id="main">
+    <ol id="section_holder"></ol>
 </main>
 
 <!-- Sidebar -->
