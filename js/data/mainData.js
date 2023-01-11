@@ -1,5 +1,6 @@
 import {Section} from './section.js'
 import {Box} from './box.js'
+import {clickBoxDeleteButton} from "../popupHandler.js";
 
 class Main {
     constructor(section) {
@@ -12,10 +13,22 @@ class Main {
         let html = "";
         for (let section of this.section) {
             html += section.getSectionHTML();
-            // console.log(section);
         }
 
         main.innerHTML = html;
+        clickBoxDeleteButton();
+    }
+
+    deleteBox(boxId) {
+        for (let section of this.section) {
+            for (let box of section.box) {
+                if (box.title === boxId) {
+                    let index = section.box.indexOf(box);
+                    section.box.splice(index, 1);
+                }
+            }
+        }
+        this.getMainHTML();
     }
 }
 
