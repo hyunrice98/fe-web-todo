@@ -2,16 +2,16 @@ import {data} from './data/mainData.js'
 
 const popup = document.getElementById("popup_overlay");
 
-function clickBoxDeleteButton() {
-    const boxDeleteButton = document.querySelectorAll(".box_delete_button");
+function setBoxDeleteButton() {
+    const boxDeleteButtons = document.querySelectorAll(".box_delete_button");
 
-    for (let i of boxDeleteButton) {
+    for (let i of boxDeleteButtons) {
         let id = i.parentElement.id;
         i.addEventListener("click", () => {
             showModal(id);
             setPopupCancelButton();
             setPopupDeleteButton(id);
-        })
+        });
     }
 }
 
@@ -45,7 +45,7 @@ function setPopupDeleteButton(id) {
         popup.style.visibility = "hidden";
         popup.style.opacity = "0";
         data.deleteBox(id);
-    })
+    });
 }
 
-export {clickBoxDeleteButton}
+export {setBoxDeleteButton}

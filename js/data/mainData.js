@@ -1,26 +1,29 @@
 import {Section} from './section.js'
 import {Box} from './box.js'
-import {clickBoxDeleteButton} from "../popupHandler.js";
+import {setBoxDeleteButton} from "../popupHandler.js";
+import {setSectionDeleteButton} from "../sectionHandler.js";
 
 class Main {
-    constructor(section) {
-        this.section = section
+    constructor(sections) {
+        this.sections = sections
     }
 
-    getMainHTML() {
+    showMainHTML() {
         const main = document.getElementById("section_holder")
 
         let html = "";
-        for (let section of this.section) {
+        for (let section of this.sections) {
             html += section.getSectionHTML();
         }
 
         main.innerHTML = html;
-        clickBoxDeleteButton();
+        setBoxDeleteButton();
+        this.setBoxDeleteButtonHover();
+        setSectionDeleteButton();
     }
 
     deleteBox(boxId) {
-        for (let section of this.section) {
+        for (let section of this.sections) {
             for (let box of section.box) {
                 if (box.title === boxId) {
                     let index = section.box.indexOf(box);
@@ -28,7 +31,30 @@ class Main {
                 }
             }
         }
-        this.getMainHTML();
+        this.showMainHTML();
+    }
+
+    deleteSection(sectionId) {
+        for (let section of this.sections) {
+            if (section.name === sectionId) {
+                let index = data.sections.indexOf(section);
+                data.sections.splice(index, 1);
+            }
+        }
+    }
+
+    setBoxDeleteButtonHover() {
+        const deleteButtons = document.querySelectorAll(".box_delete_button");
+        for (let button of deleteButtons) {
+            button.addEventListener("mouseover", () => {
+                button.parentElement.parentElement.style.border = "solid #FF4343";
+                button.parentElement.parentElement.style.backgroundColor = "#FFEEEC";
+            });
+            button.addEventListener("mouseout", () => {
+                button.parentElement.parentElement.style.border = "none";
+                button.parentElement.parentElement.style.backgroundColor = "#FFFFFF";
+            });
+        }
     }
 }
 
