@@ -1,7 +1,7 @@
-import {Section} from './section.js'
+import {getAddSectionHTML, Section} from './section.js'
 import {Box, getAddBoxHTML} from './box.js'
 import {setBoxDeleteButton} from "../popupHandler.js";
-import {setSectionDeleteButton} from "../sectionHeaderHandler.js";
+import {setSectionAddButton, setSectionDeleteButton} from "../sectionHeaderHandler.js";
 
 class Main {
     constructor(sections) {
@@ -19,6 +19,7 @@ class Main {
         main.innerHTML = html;
         setBoxDeleteButton();
         this.setBoxDeleteButtonHover();
+        setSectionAddButton();
         setSectionDeleteButton();
     }
 
@@ -86,6 +87,22 @@ class Main {
                 data.sections.splice(index, 1);
             }
         }
+    }
+
+    addSection() {
+        let sectionHolder = document.getElementById('section_holder');
+        sectionHolder.appendChild(getAddSectionHTML());
+        this.addSectionConfirmController();
+    }
+
+    addSectionConfirmController() {
+        let sectionConfirmButton = document.querySelector(".section_confirm_button");
+        sectionConfirmButton.addEventListener("click", () => {
+            let sectionName = sectionConfirmButton.previousElementSibling.value;
+            let newSection = new Section(sectionName, []);
+            this.sections.push(newSection);
+            this.showMainHTML()
+        });
     }
 
     setBoxDeleteButtonHover() {

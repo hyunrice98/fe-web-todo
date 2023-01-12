@@ -1,4 +1,7 @@
 class Section {
+    name;
+    box;
+
     constructor(name, box) {
         this.name = name;
         this.box = box;
@@ -27,5 +30,19 @@ class Section {
     }
 }
 
+function getAddSectionHTML() {
+    let section = document.createElement("li");
+    section.className = "section";
+    section.innerHTML = `
+        <div class="section_header">
+            <input type="text" class="section_header_text_input section_header_text" placeholder="섹션 제목을 입력하라우">
+            <span class="material-symbols-outlined section_confirm_button">check</span>
+        </div>
+        <ol class="section_main">
+        </ol>
+    `
 
-export {Section}
+    return section;
+}
+
+export {Section, getAddSectionHTML}

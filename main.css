@@ -147,6 +147,14 @@ main {
     background: #BDBDBD;
 }
 
+.section_confirm_button {
+    margin-left: 8px;
+}
+
+.section_confirm_button:hover {
+    color: #0075DE;
+}
+
 /* Default box */
 
 .box {
@@ -300,4 +308,21 @@ main {
 #box_deletion_popup_buttons {
     margin-bottom: 0;
     margin-left: 100px;
+}
+
+/* fav */
+
+#fav {
+    position: fixed;
+    width: 64px;
+    height: 64px;
+    bottom: 50px;
+    right: 50px;
+    border-radius: 50%;
+    background-color: #0075DE;
+}
+
+.fav_add {
+    color: #FFFFFF;
+    font-size: 48px !important;
 }
