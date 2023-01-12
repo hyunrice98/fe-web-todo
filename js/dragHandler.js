@@ -47,6 +47,7 @@ function dragHandler() {
                     section.boxes.push(tempBox);
                 }
             }
+            data.refreshNumberBox();
         });
     }
 }

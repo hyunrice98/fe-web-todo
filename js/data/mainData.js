@@ -23,6 +23,17 @@ class Main {
         setSectionDeleteButton();
     }
 
+    refreshNumberBox() {
+        const sectionHTMLHeaders = document.getElementsByClassName("number_box");
+        for (let section of this.sections) {
+            for (let numberBox of sectionHTMLHeaders) {
+                if (numberBox.id === section.name) {
+                    numberBox.innerHTML = section.boxes.length;
+                }
+            }
+        }
+    }
+
     deleteBox(boxId) {
         for (let section of this.sections) {
             for (let box of section.boxes) {

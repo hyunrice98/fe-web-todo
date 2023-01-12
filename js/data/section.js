@@ -18,7 +18,7 @@ class Section {
             <li class="section" id="${this.name}">
                 <div class="section_header">
                     <p class="section_header_text">${this.name}</p>
-                    <div class="number_box">${this.boxes.length}</div>
+                    <div class="number_box" id="${this.name}">${this.boxes.length}</div>
                     <span class="material-symbols-outlined section_add_button">add</span>
                     <span class="material-symbols-outlined section_delete_button">close</span>
                 </div>
