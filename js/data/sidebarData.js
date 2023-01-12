@@ -28,6 +28,9 @@ let sideData = new SidebarData([
     new SidebarBlock('sam', '해야할 일에 HTML/CSS공부하기를 등록하였습니다.', '1분전'),
     new SidebarBlock('sam', '해야할 일에 블로그에 포스팅할 것을 등록하였습니다.', '1분전'),
     new SidebarBlock('sam', '해야할 일에 GitHub 공부하기를 등록하였습니다.', '1분전'),
+    new SidebarBlock('sam', '해야할 일에 GitHub 공부하기를 등록하였습니다.', '1분전'),
+    new SidebarBlock('sam', '해야할 일에 GitHub 공부하기를 등록하였습니다.', '1분전'),
+    new SidebarBlock('sam', '해야할 일에 GitHub 공부하기를 등록하였습니다.', '1분전'),
 ]);
 
 export {sideData}

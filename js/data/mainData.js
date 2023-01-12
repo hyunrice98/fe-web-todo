@@ -2,6 +2,7 @@ import {getAddSectionHTML, Section} from './section.js'
 import {Box, getAddBoxHTML} from './box.js'
 import {setBoxDeleteButton} from "../popupHandler.js";
 import {setSectionAddButton, setSectionDeleteButton} from "../sectionHeaderHandler.js";
+import {dragHandler} from "../dragHandler.js";
 
 class Main {
     constructor(sections) {
@@ -21,6 +22,7 @@ class Main {
         this.setBoxDeleteButtonHover();
         setSectionAddButton();
         setSectionDeleteButton();
+        dragHandler();
     }
 
     refreshNumberBox() {
@@ -49,7 +51,6 @@ class Main {
     addBoxHTML(sectionId, index) {
         const sectionMain = document.getElementById(sectionId).querySelector(".section_main");
         if (index === 0) {
-            // console.log(sectionMain.id);
             this.newAddBoxHTML(sectionMain);
         } else {
             // this.switchAddBoxHTML(sectionMain, index);

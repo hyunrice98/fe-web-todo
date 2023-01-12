@@ -13,7 +13,6 @@ class Section {
             boxesHTML += box.getBoxHTML();
         }
 
-        // MARK: id=${this.mark} might need changing
         return `
             <li class="section" id="${this.name}">
                 <div class="section_header">
