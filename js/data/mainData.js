@@ -25,10 +25,10 @@ class Main {
 
     deleteBox(boxId) {
         for (let section of this.sections) {
-            for (let box of section.box) {
+            for (let box of section.boxes) {
                 if (box.title === boxId) {
-                    let index = section.box.indexOf(box);
-                    section.box.splice(index, 1);
+                    let index = section.boxes.indexOf(box);
+                    section.boxes.splice(index, 1);
                 }
             }
         }
@@ -68,7 +68,7 @@ class Main {
             let section_id = boxConfirmButton.parentElement.parentElement.parentElement.parentElement.id;
             for (let section of this.sections) {
                 if (section.name === section_id) {
-                    section.box.unshift(new Box(title, main, author));
+                    section.boxes.unshift(new Box(title, main, author));
                 }
             }
             this.showMainHTML();

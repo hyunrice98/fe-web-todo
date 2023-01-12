@@ -7,7 +7,7 @@ class Box {
 
     getBoxHTML() {
         return `
-            <li class="box" id="${this.title}">
+            <li class="box" id="${this.title}" draggable="true">
                 <div class="box_title" id="${this.title}">
                     <p class="box_title_text"> ${this.title} </p>
                     <span class="material-symbols-outlined box_delete_button">close</span>

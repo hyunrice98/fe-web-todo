@@ -326,3 +326,8 @@ main {
     color: #FFFFFF;
     font-size: 48px !important;
 }
+
+/* test zone */
+.dragging {
+    opacity: .5;
+}
