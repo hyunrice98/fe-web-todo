@@ -1,7 +1,7 @@
 import {Section} from './section.js'
-import {Box} from './box.js'
+import {Box, getAddBoxHTML} from './box.js'
 import {setBoxDeleteButton} from "../popupHandler.js";
-import {setSectionDeleteButton} from "../sectionHandler.js";
+import {setSectionDeleteButton} from "../sectionHeaderHandler.js";
 
 class Main {
     constructor(sections) {
@@ -33,6 +33,25 @@ class Main {
         }
         this.showMainHTML();
     }
+
+    addBoxHTML(sectionId, index) {
+        const sectionMain = document.getElementById(sectionId).querySelector(".section_main");
+        if (index === 0) {
+            console.log(sectionMain.id);
+            this.newAddBoxHTML(sectionMain);
+        } else {
+            // this.switchAddBoxHTML(sectionMain, index);
+        }
+    }
+
+    newAddBoxHTML(section) {
+        section.prepend(getAddBoxHTML());
+    }
+
+    // MARK: Double click to modify might not be needed
+    // switchAddBoxHTML(section, index) {
+    //     let a = getAddBoxHTML();
+    // }
 
     deleteSection(sectionId) {
         for (let section of this.sections) {

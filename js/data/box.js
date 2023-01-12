@@ -7,7 +7,7 @@ class Box {
 
     getBoxHTML() {
         return `
-            <li class="box">
+            <li class="box" id="${this.title}">
                 <div class="box_title" id="${this.title}">
                     <p class="box_title_text"> ${this.title} </p>
                     <span class="material-symbols-outlined box_delete_button">close</span>
@@ -19,4 +19,22 @@ class Box {
     }
 }
 
-export {Box}
+function getAddBoxHTML() {
+    const li = document.createElement("li");
+    li.classList.add("box", "box_addition");
+    li.innerHTML = `
+        <label>
+            <input class="box_title_text box_addition_title" placeholder="제목을 입력하세요" type="text">
+        </label>
+        <label>
+            <textarea class="box_main_text box_addition_text" placeholder="내용을 입력하세요" rows="1"></textarea>
+        </label>
+        <div class="button_container">
+            <button class="grey_button">취소</button>
+            <button class="blue_button">등록</button>
+        </div>
+    `
+    return li;
+}
+
+export {Box, getAddBoxHTML}
