@@ -30,8 +30,8 @@ function getAddBoxHTML() {
             <textarea class="box_main_text box_addition_text" placeholder="내용을 입력하세요" rows="1"></textarea>
         </label>
         <div class="button_container">
-            <button class="grey_button">취소</button>
-            <button class="blue_button">등록</button>
+            <button class="grey_button" id="box_addition_cancel">취소</button>
+            <button class="blue_button" id="box_addition_confirm">등록</button>
         </div>
     `
     return li;

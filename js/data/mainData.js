@@ -37,7 +37,7 @@ class Main {
     addBoxHTML(sectionId, index) {
         const sectionMain = document.getElementById(sectionId).querySelector(".section_main");
         if (index === 0) {
-            console.log(sectionMain.id);
+            // console.log(sectionMain.id);
             this.newAddBoxHTML(sectionMain);
         } else {
             // this.switchAddBoxHTML(sectionMain, index);
@@ -46,6 +46,32 @@ class Main {
 
     newAddBoxHTML(section) {
         section.prepend(getAddBoxHTML());
+        this.setBoxAdditionCancelListener();
+        this.setBoxAdditionConfirmListener();
+    }
+
+    setBoxAdditionCancelListener() {
+        let boxCancelButton = document.getElementById("box_addition_cancel");
+        boxCancelButton.addEventListener("click", () => {
+            let section = boxCancelButton.parentElement.parentElement.parentElement;
+            section.removeChild(section.firstChild);
+        });
+    }
+
+    setBoxAdditionConfirmListener() {
+        let boxConfirmButton = document.getElementById("box_addition_confirm");
+        boxConfirmButton.addEventListener("click", () => {
+            let title = document.getElementsByClassName("box_addition_title")[0].value;
+            let main = document.getElementsByClassName("box_addition_text")[0].value;
+            let author = "jaehyun cho";
+            let section_id = boxConfirmButton.parentElement.parentElement.parentElement.parentElement.id;
+            for (let section of this.sections) {
+                if (section.name === section_id) {
+                    section.box.unshift(new Box(title, main, author));
+                }
+            }
+            this.showMainHTML();
+        });
     }
 
     // MARK: Double click to modify might not be needed
