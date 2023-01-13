@@ -79,6 +79,11 @@ class Main {
             let title = document.getElementsByClassName("box_addition_title")[0].value;
             let main = document.getElementsByClassName("box_addition_text")[0].value;
             let author = "jaehyun cho";
+
+            if (title === '' || main === '') {
+                return;
+            }
+
             let section_id = boxConfirmButton.parentElement.parentElement.parentElement.parentElement.id;
             for (let section of this.sections) {
                 if (section.name === section_id) {
@@ -116,6 +121,7 @@ class Main {
         let sectionConfirmButton = document.querySelector(".section_confirm_button");
         sectionConfirmButton.addEventListener("click", () => {
             let sectionName = sectionConfirmButton.previousElementSibling.value;
+            if (sectionName === '') return;
             let newSection = new Section(sectionName, []);
             this.sections.push(newSection);
             addSidebarBlock("jaehyun cho", "<strong>" + sectionName + "</strong> 칼럼을 등록하였습니다.");
