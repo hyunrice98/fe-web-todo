@@ -1,4 +1,5 @@
 import {data} from "./data/mainData.js";
+import {addSidebarBlock} from "./data/sidebarData.js";
 
 function dragHandler() {
     let dragged = null;
@@ -30,11 +31,13 @@ function dragHandler() {
                 return
             }
 
+            let tempSectionName;
             let tempBox;
             for (let section of data.sections) {
                 for (let box of section.boxes) {
                     if (box.title === dragged.id) {
                         tempBox = box;
+                        tempSectionName = section.name;
                         let index = section.boxes.indexOf(box);
                         section.boxes.splice(index, 1);
                     }
@@ -45,6 +48,9 @@ function dragHandler() {
             for (let section of data.sections) {
                 if (section.name === targetId) {
                     section.boxes.push(tempBox);
+                    addSidebarBlock("jaehyun cho",
+                        "<strong>" + dragged.id + "</strong>를 <strong>" + tempSectionName + "</strong>에서 <strong>" + section.name + "</strong>로 이동하였습니다."
+                    );
                 }
             }
             data.refreshNumberBox();

@@ -3,6 +3,7 @@ import {Box, getAddBoxHTML} from './box.js'
 import {setBoxDeleteButton} from "../popupHandler.js";
 import {setSectionAddButton, setSectionDeleteButton} from "../sectionHeaderHandler.js";
 import {dragHandler} from "../dragHandler.js";
+import {addSidebarBlock} from "./sidebarData.js"
 
 class Main {
     constructor(sections) {
@@ -36,6 +37,7 @@ class Main {
         }
     }
 
+    // TODO: DELETE box
     deleteBox(boxId) {
         for (let section of this.sections) {
             for (let box of section.boxes) {
@@ -81,6 +83,7 @@ class Main {
             for (let section of this.sections) {
                 if (section.name === section_id) {
                     section.boxes.unshift(new Box(title, main, author));
+                    addSidebarBlock("jaehyun cho<strong>", section.name + "</strong>에 <strong>" + title + "</strong>를 등록하였습니다.");
                 }
             }
             this.showMainHTML();
@@ -101,6 +104,7 @@ class Main {
         }
     }
 
+    // TODO: ADD section
     addSection() {
         let sectionHolder = document.getElementById('section_holder');
         sectionHolder.appendChild(getAddSectionHTML());
@@ -113,6 +117,7 @@ class Main {
             let sectionName = sectionConfirmButton.previousElementSibling.value;
             let newSection = new Section(sectionName, []);
             this.sections.push(newSection);
+            addSidebarBlock("jaehyun cho", "<strong>" + sectionName + "</strong> 칼럼을 등록하였습니다.");
             this.showMainHTML()
         });
     }

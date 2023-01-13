@@ -1,4 +1,5 @@
 import {SidebarBlock} from "./sidebarBlock.js";
+import {clickHeaderMenuButton, clickSidebarCloseButton} from "../sidebarHandler.js";
 
 class SidebarData {
     constructor(sidebars) {
@@ -20,17 +21,16 @@ class SidebarData {
         html += '</ol>'
 
         sidebar.innerHTML = html;
+        clickHeaderMenuButton();
+        clickSidebarCloseButton();
     }
 }
 
-let sideData = new SidebarData([
-    new SidebarBlock('sam', 'HTML/CSS공부하기를 해야할 일에서 하고 있는 일로 이동하였습니다.', '1분전'),
-    new SidebarBlock('sam', '해야할 일에 HTML/CSS공부하기를 등록하였습니다.', '1분전'),
-    new SidebarBlock('sam', '해야할 일에 블로그에 포스팅할 것을 등록하였습니다.', '1분전'),
-    new SidebarBlock('sam', '해야할 일에 GitHub 공부하기를 등록하였습니다.', '1분전'),
-    new SidebarBlock('sam', '해야할 일에 GitHub 공부하기를 등록하였습니다.', '1분전'),
-    new SidebarBlock('sam', '해야할 일에 GitHub 공부하기를 등록하였습니다.', '1분전'),
-    new SidebarBlock('sam', '해야할 일에 GitHub 공부하기를 등록하였습니다.', '1분전'),
-]);
+function addSidebarBlock(name, text) {
+    sideData.sidebars.unshift(new SidebarBlock(name, text, Date()));
+    sideData.getSidebarHTML();
+}
 
-export {sideData}
+let sideData = new SidebarData([]);
+
+export {sideData, SidebarData, addSidebarBlock}

@@ -8,8 +8,8 @@ data.showMainHTML();
 sideData.getSidebarHTML();
 
 // Menubar Showing
-clickHeaderMenuButton();
-clickSidebarCloseButton();
+// clickHeaderMenuButton();
+// clickSidebarCloseButton();
 favHandler();
 
 // test zone

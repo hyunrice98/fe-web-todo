@@ -1,4 +1,5 @@
 import {data} from './data/mainData.js'
+import {addSidebarBlock} from "./data/sidebarData.js";
 
 const popup = document.getElementById("popup_overlay");
 
@@ -45,6 +46,7 @@ function setPopupDeleteButton(id) {
         popup.style.visibility = "hidden";
         popup.style.opacity = "0";
         data.deleteBox(id);
+        addSidebarBlock("jaehyun cho", id + "를 삭제하였습니다.");
     });
 }
 
