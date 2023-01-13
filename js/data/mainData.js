@@ -100,6 +100,7 @@ class Main {
             if (section.name === sectionId) {
                 let index = data.sections.indexOf(section);
                 data.sections.splice(index, 1);
+                addSidebarBlock("jaehyun cho", "<strong>" + section.name + "</strong> 칼럼을 삭제하였습니다.");
             }
         }
     }

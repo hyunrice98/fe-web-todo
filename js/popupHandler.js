@@ -46,7 +46,7 @@ function setPopupDeleteButton(id) {
         popup.style.visibility = "hidden";
         popup.style.opacity = "0";
         data.deleteBox(id);
-        addSidebarBlock("jaehyun cho", id + "를 삭제하였습니다.");
+        addSidebarBlock("jaehyun cho", "<strong>" + id + "</strong>를 삭제하였습니다.");
     });
 }
 
