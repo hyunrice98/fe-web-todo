@@ -27,8 +27,13 @@ class SidebarData {
 }
 
 function addSidebarBlock(name, text) {
-    sideData.sidebars.unshift(new SidebarBlock(name, text, Date()));
+    sideData.sidebars.unshift(new SidebarBlock(name, text, parsedDate()));
     sideData.getSidebarHTML();
+}
+
+function parsedDate() {
+    let time = new Date();
+    return time.getFullYear() + '/' + (time.getMonth() + 1) + '/' + time.getDate() + ' ' + time.getHours() + ':' + time.getMinutes();
 }
 
 let sideData = new SidebarData([]);

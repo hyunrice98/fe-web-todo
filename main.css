@@ -58,7 +58,7 @@ ol {
 }
 
 strong {
-    font-weight: 700;
+    font-weight: bold !important;
 }
 
 /* Header */
