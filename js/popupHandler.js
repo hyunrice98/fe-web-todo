@@ -7,14 +7,15 @@ function setBoxDeleteButton() {
     const boxDeleteButtons = document.querySelectorAll(".box_delete_button");
 
     // TODO: 위임
-    for (let i of boxDeleteButtons) {
-        let id = i.parentElement.id;
-        i.addEventListener("click", () => {
+    boxDeleteButtons.forEach((button) => {
+        let id = button.parentElement.id;
+        button.addEventListener("click", () => {
+            console.log(id);
             showModal(id);
             setPopupCancelButton();
             setPopupDeleteButton(id);
         });
-    }
+    });
 }
 
 function showModal() {

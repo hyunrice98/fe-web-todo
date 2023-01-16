@@ -11,14 +11,9 @@ class Main {
     }
 
     showMainHTML() {
-        const main = document.getElementById("section_holder")
+        const main = document.querySelector("#section_holder");
+        main.innerHTML = this.sections.reduce((acc, section) => acc + section.getSectionHTML(), '');
 
-        let html = "";
-        for (let section of this.sections) {
-            html += section.getSectionHTML();
-        }
-
-        main.innerHTML = html;
         setBoxDeleteButton();
         this.setBoxDeleteButtonHover();
         setSectionAddButton();
@@ -28,24 +23,25 @@ class Main {
 
     refreshNumberBox() {
         const sectionHTMLHeaders = document.getElementsByClassName("number_box");
-        for (let section of this.sections) {
+        this.sections.forEach((section) => {
             for (let numberBox of sectionHTMLHeaders) {
                 if (numberBox.id === section.name) {
                     numberBox.innerHTML = section.boxes.length;
                 }
             }
-        }
+        });
     }
 
     deleteBox(boxId) {
-        for (let section of this.sections) {
-            for (let box of section.boxes) {
+        // TODO: clean this shit
+        this.sections.forEach((section) => {
+            section.boxes.forEach((box) => {
                 if (box.title === boxId) {
                     let index = section.boxes.indexOf(box);
                     section.boxes.splice(index, 1);
                 }
-            }
-        }
+            });
+        });
         this.showMainHTML();
     }
 
@@ -84,13 +80,14 @@ class Main {
             }
 
             let section_id = boxConfirmButton.closest(".section").id;
-            console.log(section_id);
-            for (let section of this.sections) {
+            this.sections.forEach((section) => {
                 if (section.name === section_id) {
                     section.boxes.unshift(new Box(title, main, author));
-                    addSidebarBlock("jaehyun cho<strong>", section.name + "</strong>에 <strong>" + title + "</strong>를 등록하였습니다.");
+                    addSidebarBlock("jaehyun cho",
+                        `<strong>${section.name}</strong>에 <strong>${title}</strong>를 등록하였습니다.`
+                    );
                 }
-            }
+            })
             this.showMainHTML();
         });
     }
@@ -101,13 +98,15 @@ class Main {
     // }
 
     deleteSection(sectionId) {
-        for (let section of this.sections) {
+        this.sections.forEach((section) => {
             if (section.name === sectionId) {
                 let index = data.sections.indexOf(section);
                 data.sections.splice(index, 1);
-                addSidebarBlock("jaehyun cho", "<strong>" + section.name + "</strong> 칼럼을 삭제하였습니다.");
+                addSidebarBlock("jaehyun cho",
+                    `<strong>${section.name}</strong> 칼럼을 삭제하였습니다.`
+                );
             }
-        }
+        })
     }
 
     addSection() {
@@ -123,14 +122,16 @@ class Main {
             if (sectionName === '') return;
             let newSection = new Section(sectionName, []);
             this.sections.push(newSection);
-            addSidebarBlock("jaehyun cho", "<strong>" + sectionName + "</strong> 칼럼을 등록하였습니다.");
+            addSidebarBlock("jaehyun cho",
+                `<strong>${sectionName}</strong> 칼럼을 등록하였습니다.`
+            );
             this.showMainHTML()
         });
     }
 
     setBoxDeleteButtonHover() {
         const deleteButtons = document.querySelectorAll(".box_delete_button");
-        for (let button of deleteButtons) {
+        deleteButtons.forEach((button) => {
             let targetBox = button.closest(".box");
             button.addEventListener("mouseover", () => {
                 targetBox.style.outline = "solid #FF4343";
@@ -140,7 +141,7 @@ class Main {
                 targetBox.style.outline = "none";
                 targetBox.style.backgroundColor = "#FFFFFF";
             });
-        }
+        })
     }
 }
 

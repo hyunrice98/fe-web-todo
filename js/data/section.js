@@ -8,10 +8,11 @@ class Section {
     }
 
     getSectionHTML() {
-        let boxesHTML = "";
-        for (let box of this.boxes) {
-            boxesHTML += box.getBoxHTML();
-        }
+        // let boxesHTML = "";
+        // for (let box of this.boxes) {
+        //     boxesHTML += box.getBoxHTML();
+        // }
+        let boxesHTML = this.boxes.reduce((acc, box) => acc + box.getBoxHTML(), '');
 
         return `
             <li class="section" id="${this.name}">
