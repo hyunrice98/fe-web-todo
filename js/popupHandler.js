@@ -6,6 +6,7 @@ const popup = document.getElementById("popup_overlay");
 function setBoxDeleteButton() {
     const boxDeleteButtons = document.querySelectorAll(".box_delete_button");
 
+    // TODO: 위임
     for (let i of boxDeleteButtons) {
         let id = i.parentElement.id;
         i.addEventListener("click", () => {

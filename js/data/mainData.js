@@ -37,7 +37,6 @@ class Main {
         }
     }
 
-    // TODO: DELETE box
     deleteBox(boxId) {
         for (let section of this.sections) {
             for (let box of section.boxes) {
@@ -68,7 +67,7 @@ class Main {
     setBoxAdditionCancelListener() {
         let boxCancelButton = document.getElementById("box_addition_cancel");
         boxCancelButton.addEventListener("click", () => {
-            let section = boxCancelButton.parentElement.parentElement.parentElement;
+            let section = boxCancelButton.closest(".section_main")
             section.removeChild(section.firstChild);
         });
     }
@@ -84,7 +83,8 @@ class Main {
                 return;
             }
 
-            let section_id = boxConfirmButton.parentElement.parentElement.parentElement.parentElement.id;
+            let section_id = boxConfirmButton.closest(".section").id;
+            console.log(section_id);
             for (let section of this.sections) {
                 if (section.name === section_id) {
                     section.boxes.unshift(new Box(title, main, author));
@@ -110,7 +110,6 @@ class Main {
         }
     }
 
-    // TODO: ADD section
     addSection() {
         let sectionHolder = document.getElementById('section_holder');
         sectionHolder.appendChild(getAddSectionHTML());
@@ -132,13 +131,14 @@ class Main {
     setBoxDeleteButtonHover() {
         const deleteButtons = document.querySelectorAll(".box_delete_button");
         for (let button of deleteButtons) {
+            let targetBox = button.closest(".box");
             button.addEventListener("mouseover", () => {
-                button.parentElement.parentElement.style.border = "solid #FF4343";
-                button.parentElement.parentElement.style.backgroundColor = "#FFEEEC";
+                targetBox.style.outline = "solid #FF4343";
+                targetBox.style.backgroundColor = "#FFEEEC";
             });
             button.addEventListener("mouseout", () => {
-                button.parentElement.parentElement.style.border = "none";
-                button.parentElement.parentElement.style.backgroundColor = "#FFFFFF";
+                targetBox.style.outline = "none";
+                targetBox.style.backgroundColor = "#FFFFFF";
             });
         }
     }

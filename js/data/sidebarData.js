@@ -15,6 +15,7 @@ class SidebarData {
             <ol id="sidebar_blocks">
         `
 
+        // TODO: reduce?
         for (let block of this.sidebars) {
             html += block.getSidebarBlockHTML();
         }
