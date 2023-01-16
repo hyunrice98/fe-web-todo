@@ -31,18 +31,18 @@ function dragHandler() {
 
             let tempSectionName;
             let tempBox;
-            for (let section of data.sections) {
+            for (const section of data.sections) {
                 section.boxes.forEach((box) => {
                     if (box.title === dragged.id) {
                         tempBox = box;
                         tempSectionName = section.name;
-                        let index = section.boxes.indexOf(box);
+                        const index = section.boxes.indexOf(box);
                         section.boxes.splice(index, 1);
                     }
                 });
             }
 
-            let targetId = event.target.id;
+            const targetId = event.target.id;
             data.sections.forEach((section) => {
                 if (section.name === targetId) {
                     section.boxes.push(tempBox);

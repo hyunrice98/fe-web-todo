@@ -8,9 +8,8 @@ function setBoxDeleteButton() {
 
     // TODO: 위임
     boxDeleteButtons.forEach((button) => {
-        let id = button.parentElement.id;
+        const id = button.parentElement.id;
         button.addEventListener("click", () => {
-            console.log(id);
             showModal(id);
             setPopupCancelButton();
             setPopupDeleteButton(id);
@@ -33,7 +32,7 @@ function showModal() {
 }
 
 function setPopupCancelButton() {
-    let cancelButton = document.getElementById("popup_cancel");
+    const cancelButton = document.getElementById("popup_cancel");
     cancelButton.addEventListener("click", () => {
         popup.innerHTML = ``;
         popup.style.visibility = "hidden";
@@ -42,7 +41,7 @@ function setPopupCancelButton() {
 }
 
 function setPopupDeleteButton(id) {
-    let deleteButton = document.getElementById("popup_delete");
+    const deleteButton = document.getElementById("popup_delete");
     deleteButton.addEventListener("click", () => {
         popup.innerHTML = ``;
         popup.style.visibility = "hidden";

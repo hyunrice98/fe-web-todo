@@ -24,7 +24,7 @@ class Main {
     refreshNumberBox() {
         const sectionHTMLHeaders = document.getElementsByClassName("number_box");
         this.sections.forEach((section) => {
-            for (let numberBox of sectionHTMLHeaders) {
+            for (const numberBox of sectionHTMLHeaders) {
                 if (numberBox.id === section.name) {
                     numberBox.innerHTML = section.boxes.length;
                 }
@@ -37,7 +37,7 @@ class Main {
         this.sections.forEach((section) => {
             section.boxes.forEach((box) => {
                 if (box.title === boxId) {
-                    let index = section.boxes.indexOf(box);
+                    const index = section.boxes.indexOf(box);
                     section.boxes.splice(index, 1);
                 }
             });
@@ -46,7 +46,7 @@ class Main {
     }
 
     addBoxHTML(sectionId, index) {
-        const sectionMain = document.getElementById(sectionId).querySelector(".section_main");
+        const sectionMain = document.querySelectorAll(`.${sectionId}, .section_main`)[0];
         if (index === 0) {
             this.newAddBoxHTML(sectionMain);
         } else {
@@ -61,25 +61,25 @@ class Main {
     }
 
     setBoxAdditionCancelListener() {
-        let boxCancelButton = document.getElementById("box_addition_cancel");
+        const boxCancelButton = document.querySelector("#box_addition_cancel");
         boxCancelButton.addEventListener("click", () => {
-            let section = boxCancelButton.closest(".section_main")
+            const section = boxCancelButton.closest(".section_main")
             section.removeChild(section.firstChild);
         });
     }
 
     setBoxAdditionConfirmListener() {
-        let boxConfirmButton = document.getElementById("box_addition_confirm");
+        const boxConfirmButton = document.querySelector("#box_addition_confirm");
         boxConfirmButton.addEventListener("click", () => {
-            let title = document.getElementsByClassName("box_addition_title")[0].value;
-            let main = document.getElementsByClassName("box_addition_text")[0].value;
-            let author = "jaehyun cho";
+            const title = document.getElementsByClassName("box_addition_title")[0].value;
+            const main = document.getElementsByClassName("box_addition_text")[0].value;
+            const author = "jaehyun cho";
 
             if (title === '' || main === '') {
                 return;
             }
 
-            let section_id = boxConfirmButton.closest(".section").id;
+            const section_id = boxConfirmButton.closest(".section").id;
             this.sections.forEach((section) => {
                 if (section.name === section_id) {
                     section.boxes.unshift(new Box(title, main, author));
@@ -94,13 +94,13 @@ class Main {
 
     // MARK: Double click to modify might not be needed
     // switchAddBoxHTML(section, index) {
-    //     let a = getAddBoxHTML();
+    //     const a = getAddBoxHTML();
     // }
 
     deleteSection(sectionId) {
         this.sections.forEach((section) => {
             if (section.name === sectionId) {
-                let index = data.sections.indexOf(section);
+                const index = data.sections.indexOf(section);
                 data.sections.splice(index, 1);
                 addSidebarBlock("jaehyun cho",
                     `<strong>${section.name}</strong> 칼럼을 삭제하였습니다.`
@@ -110,17 +110,17 @@ class Main {
     }
 
     addSection() {
-        let sectionHolder = document.getElementById('section_holder');
+        const sectionHolder = document.querySelector("#section_holder");
         sectionHolder.appendChild(getAddSectionHTML());
         this.addSectionConfirmController();
     }
 
     addSectionConfirmController() {
-        let sectionConfirmButton = document.querySelector(".section_confirm_button");
+        const sectionConfirmButton = document.querySelector(".section_confirm_button");
         sectionConfirmButton.addEventListener("click", () => {
-            let sectionName = sectionConfirmButton.previousElementSibling.value;
+            const sectionName = sectionConfirmButton.previousElementSibling.value;
             if (sectionName === '') return;
-            let newSection = new Section(sectionName, []);
+            const newSection = new Section(sectionName, []);
             this.sections.push(newSection);
             addSidebarBlock("jaehyun cho",
                 `<strong>${sectionName}</strong> 칼럼을 등록하였습니다.`
@@ -132,7 +132,7 @@ class Main {
     setBoxDeleteButtonHover() {
         const deleteButtons = document.querySelectorAll(".box_delete_button");
         deleteButtons.forEach((button) => {
-            let targetBox = button.closest(".box");
+            const targetBox = button.closest(".box");
             button.addEventListener("mouseover", () => {
                 targetBox.style.outline = "solid #FF4343";
                 targetBox.style.backgroundColor = "#FFEEEC";

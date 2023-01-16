@@ -8,11 +8,7 @@ class Section {
     }
 
     getSectionHTML() {
-        // let boxesHTML = "";
-        // for (let box of this.boxes) {
-        //     boxesHTML += box.getBoxHTML();
-        // }
-        let boxesHTML = this.boxes.reduce((acc, box) => acc + box.getBoxHTML(), '');
+        const boxesHTML = this.boxes.reduce((acc, box) => acc + box.getBoxHTML(), '');
 
         return `
             <li class="section" id="${this.name}">
@@ -31,11 +27,11 @@ class Section {
 }
 
 function getAddSectionHTML() {
-    let section = document.createElement("li");
+    const section = document.createElement("li");
     section.className = "section";
     section.innerHTML = `
         <div class="section_header">
-            <input type="text" class="section_header_text_input section_header_text" placeholder="섹션 제목을 입력하라우">
+            <input type="text" class="section_header_text_input section_header_text" placeholder="섹션 제목을 입력하세요">
             <span class="material-symbols-outlined section_confirm_button">check</span>
         </div>
         <ol class="section_main">

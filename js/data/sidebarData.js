@@ -30,7 +30,7 @@ function addSidebarBlock(name, text) {
 }
 
 function parsedDate() {
-    let time = new Date();
+    const time = new Date();
     return `
         ${time.getFullYear()}/${time.getMonth() + 1}/${time.getDate()}
         ${time.getHours()}:${time.getMinutes()}
