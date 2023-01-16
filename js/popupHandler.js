@@ -27,16 +27,16 @@ function showModal() {
         </div>
     </div>
     `
-    popup.style.visibility = "visible";
-    popup.style.opacity = "1";
+    popup.classList.remove('invisible');
+    popup.classList.add('visible');
 }
 
 function setPopupCancelButton() {
     const cancelButton = document.getElementById("popup_cancel");
     cancelButton.addEventListener("click", () => {
         popup.innerHTML = ``;
-        popup.style.visibility = "hidden";
-        popup.style.opacity = "0";
+        popup.classList.remove('visible');
+        popup.classList.add('invisible');
     });
 }
 
@@ -44,8 +44,8 @@ function setPopupDeleteButton(id) {
     const deleteButton = document.getElementById("popup_delete");
     deleteButton.addEventListener("click", () => {
         popup.innerHTML = ``;
-        popup.style.visibility = "hidden";
-        popup.style.opacity = "0";
+        popup.classList.remove('visible');
+        popup.classList.add('invisible');
         data.deleteBox(id);
         addSidebarBlock("jaehyun cho", "<strong>" + id + "</strong>를 삭제하였습니다.");
     });
