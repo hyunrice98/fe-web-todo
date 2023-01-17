@@ -10,15 +10,46 @@ class Main {
         this.sections = sections
     }
 
+    replaceSection(originalSectionName, newSectionName) {
+        this.sections.map((section) => {
+            if (section.name === originalSectionName) {
+                section.name = newSectionName;
+            }
+        });
+    }
+
     showMainHTML() {
         const main = document.querySelector("#section_holder");
         main.innerHTML = this.sections.reduce((acc, section) => acc + section.getSectionHTML(), '');
 
+        this.modifySectionHeaderTextListener();
         setBoxDeleteButton();
         this.setBoxDeleteButtonHover();
         setSectionAddButton();
         setSectionDeleteButton();
         dragHandler();
+    }
+
+    modifySectionHeaderTextListener() {
+        const sectionHeaderTexts = document.querySelectorAll(".section_header_text");
+        const newSectionHeader = document.createElement("div");
+        newSectionHeader.className = "section_header";
+        newSectionHeader.innerHTML = `
+            <input type="text" class="section_header_text_input section_header_text" placeholder="섹션 제목을 입력하세요">
+            <span class="material-symbols-outlined section_confirm_button">check</span>
+        `;
+
+        [...sectionHeaderTexts].forEach((sectionHeaderText) => {
+            sectionHeaderText.addEventListener("dblclick", () => {
+                const originalSectionHeader = sectionHeaderText.parentElement;
+                originalSectionHeader.parentElement.replaceChild(newSectionHeader, originalSectionHeader);
+
+                document.querySelector(".section_confirm_button").addEventListener("click", () => {
+                    this.replaceSection(newSectionHeader.parentElement.id, newSectionHeader.children[0].value);
+                    this.showMainHTML();
+                });
+            });
+        });
     }
 
     refreshNumberBox() {
