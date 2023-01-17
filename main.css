@@ -190,6 +190,11 @@ main {
 }
 
 .box_delete_button {
+    margin-left: auto;
+    float: right;
+}
+
+.box_edit_button {
     float: right;
 }
 

@@ -18,7 +18,7 @@ function setSectionAddButton() {
     for (const i of sectionAddButtons) {
         const sectionID = i.closest(".section").id;
         i.addEventListener("click", () => {
-            data.addBoxHTML(sectionID, 0);
+            data.addBoxHTML(sectionID);
         })
     }
 }

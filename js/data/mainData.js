@@ -11,11 +11,21 @@ class Main {
     }
 
     replaceSection(originalSectionName, newSectionName) {
-        this.sections.map((section) => {
+        this.sections.forEach((section) => {
             if (section.name === originalSectionName) {
                 section.name = newSectionName;
             }
         });
+    }
+
+    replaceBox(originalBoxTitle, newBoxTitle) {
+        this.sections.forEach((section) => {
+            section.boxes.forEach((box) => {
+                if (box.title === originalBoxTitle) {
+                    box.title = newBoxTitle;
+                }
+            })
+        })
     }
 
     showMainHTML() {
@@ -25,6 +35,7 @@ class Main {
         this.modifySectionHeaderTextListener();
         setBoxDeleteButton();
         this.setBoxDeleteButtonHover();
+        this.setBoxEditButtonListener();
         setSectionAddButton();
         setSectionDeleteButton();
         dragHandler();
@@ -64,7 +75,6 @@ class Main {
     }
 
     deleteBox(boxId) {
-        // TODO: clean this shit
         this.sections.forEach((section) => {
             section.boxes.forEach((box) => {
                 if (box.title === boxId) {
@@ -76,13 +86,9 @@ class Main {
         this.showMainHTML();
     }
 
-    addBoxHTML(sectionId, index) {
+    addBoxHTML(sectionId) {
         const sectionMain = document.querySelectorAll(`.${sectionId}, .section_main`)[0];
-        if (index === 0) {
-            this.newAddBoxHTML(sectionMain);
-        } else {
-            // this.switchAddBoxHTML(sectionMain, index);
-        }
+        this.newAddBoxHTML(sectionMain);
     }
 
     newAddBoxHTML(section) {
@@ -122,11 +128,6 @@ class Main {
             this.showMainHTML();
         });
     }
-
-    // MARK: Double click to modify might not be needed
-    // switchAddBoxHTML(section, index) {
-    //     const a = getAddBoxHTML();
-    // }
 
     deleteSection(sectionId) {
         this.sections.forEach((section) => {
@@ -173,6 +174,27 @@ class Main {
                 targetBox.style.backgroundColor = "#FFFFFF";
             });
         })
+    }
+
+    setBoxEditButtonListener() {
+        const modifyButtons = document.querySelectorAll(".box_edit_button");
+        modifyButtons.forEach((button) => {
+            button.addEventListener("click", () => {
+                const targetBox = button.closest(".box");
+                this.switchAddBoxHTML(targetBox);
+            });
+            button.addEventListener("mouseover", () => {
+                button.style.color = "#0075DE";
+            });
+            button.addEventListener("mouseout", () => {
+                button.style.color = "#000000";
+            });
+        })
+    }
+
+    switchAddBoxHTML(targetBox) {
+        const a = getAddBoxHTML(targetBox.id, targetBox.children[1].innerHTML);
+        targetBox.parentElement.replaceChild(a, targetBox);
     }
 }
 
