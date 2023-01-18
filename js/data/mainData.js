@@ -18,11 +18,21 @@ class Main {
         });
     }
 
-    replaceBox(originalBoxTitle, newBoxTitle) {
+    replaceBox(originalBoxTitle, newBox) {
         this.sections.forEach((section) => {
             section.boxes.forEach((box) => {
                 if (box.title === originalBoxTitle) {
-                    box.title = newBoxTitle;
+                    box = newBox;
+                }
+            })
+        })
+    }
+
+    deleteBoxWithTitle(boxTitle) {
+        this.sections.forEach((section) => {
+            section.boxes.forEach((box, i) => {
+                if (box.title === boxTitle) {
+                    section.boxes.splice(i, 1);
                 }
             })
         })
@@ -108,7 +118,7 @@ class Main {
         });
     }
 
-    setBoxAdditionConfirmListener() {
+    setBoxAdditionConfirmListener(boxTitle = '') {
         const boxConfirmButton = document.querySelector("#box_addition_confirm");
         boxConfirmButton.addEventListener("click", () => {
             const title = document.getElementsByClassName("box_addition_title")[0].value;
@@ -122,12 +132,15 @@ class Main {
             const section_id = boxConfirmButton.closest(".section").id;
             this.sections.forEach((section) => {
                 if (section.name === section_id) {
+                    if (boxTitle !== '') {
+                        this.deleteBoxWithTitle(boxTitle);
+                    }
                     section.boxes.unshift(new Box(title, main, author));
                     addSidebarBlock("jaehyun cho",
                         `<strong>${section.name}</strong>에 <strong>${title}</strong>를 등록하였습니다.`
                     );
                 }
-            })
+            });
             this.showMainHTML();
         });
     }
@@ -198,6 +211,13 @@ class Main {
     switchAddBoxHTML(targetBox) {
         const newBox = getAddBoxHTML(targetBox.id, targetBox.children[1].innerHTML);
         targetBox.parentElement.replaceChild(newBox, targetBox);
+        const boxTitle = targetBox.id
+        const cancelAddBoxButton = document.querySelector("#box_addition_cancel");
+        cancelAddBoxButton.addEventListener("click", () => {
+            cancelAddBoxButton.closest(".section_main").replaceChild(targetBox, newBox);
+        });
+
+        this.setBoxAdditionConfirmListener(boxTitle);
     }
 }
 
