@@ -38,4 +38,15 @@ function getAddBoxHTML(title, text) {
     return li;
 }
 
-export {Box, getAddBoxHTML}
+function resizeTextarea() {
+    let boxAdditionText = document.querySelector(".box_addition_text");
+    boxAdditionText.style.height = boxAdditionText.scrollHeight + "px";
+    boxAdditionText.oninput = function () {
+        boxAdditionText.style.height = "";
+        boxAdditionText.style.height = boxAdditionText.scrollHeight + "px";
+        console.log("height: " + boxAdditionText.style.height);
+        console.log("scrollHeight: " + boxAdditionText.style.scrollHeight);
+    }
+}
+
+export {Box, getAddBoxHTML, resizeTextarea}

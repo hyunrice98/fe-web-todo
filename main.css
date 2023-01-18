@@ -20,12 +20,15 @@ button {
 }
 
 input {
+    width: 100%;
     border-style: hidden;
 }
 
 textarea {
+    width: 100%;
     resize: none;
     border-style: hidden;
+    height: auto;
 }
 
 .button_container {

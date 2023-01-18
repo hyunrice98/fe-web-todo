@@ -1,5 +1,5 @@
 import {getAddSectionHTML, Section} from './section.js'
-import {Box, getAddBoxHTML} from './box.js'
+import {Box, getAddBoxHTML, resizeTextarea} from './box.js'
 import {setBoxDeleteButton} from "../popupHandler.js";
 import {setSectionAddButton, setSectionDeleteButton} from "../sectionHeaderHandler.js";
 import {dragHandler} from "../dragHandler.js";
@@ -16,16 +16,6 @@ class Main {
                 section.name = newSectionName;
             }
         });
-    }
-
-    replaceBox(originalBoxTitle, newBox) {
-        this.sections.forEach((section) => {
-            section.boxes.forEach((box) => {
-                if (box.title === originalBoxTitle) {
-                    box = newBox;
-                }
-            })
-        })
     }
 
     deleteBoxWithTitle(boxTitle) {
@@ -106,6 +96,7 @@ class Main {
 
     newAddBoxHTML(section) {
         section.prepend(getAddBoxHTML());
+        resizeTextarea();
         this.setBoxAdditionCancelListener();
         this.setBoxAdditionConfirmListener();
     }
@@ -211,6 +202,7 @@ class Main {
     switchAddBoxHTML(targetBox) {
         const newBox = getAddBoxHTML(targetBox.id, targetBox.children[1].innerHTML);
         targetBox.parentElement.replaceChild(newBox, targetBox);
+        resizeTextarea();
         const boxTitle = targetBox.id
         const cancelAddBoxButton = document.querySelector("#box_addition_cancel");
         cancelAddBoxButton.addEventListener("click", () => {
