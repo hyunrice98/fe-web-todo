@@ -18,11 +18,11 @@ class Main {
         });
     }
 
-    deleteBoxWithTitle(boxTitle) {
+    replaceBoxWithTitle(boxTitle, newBox) {
         this.sections.forEach((section) => {
             section.boxes.forEach((box, i) => {
                 if (box.title === boxTitle) {
-                    section.boxes.splice(i, 1);
+                    section.boxes[i] = newBox;
                 }
             })
         })
@@ -124,12 +124,16 @@ class Main {
             this.sections.forEach((section) => {
                 if (section.name === section_id) {
                     if (boxTitle !== '') {
-                        this.deleteBoxWithTitle(boxTitle);
+                        this.replaceBoxWithTitle(boxTitle, new Box(title, main, author));
+                        addSidebarBlock("jaehyun cho",
+                            `<strong>${section.name}</strong>의 <strong>${title}</strong>를 수정하였습니다.`
+                        );
+                    } else {
+                        section.boxes.unshift(new Box(title, main, author));
+                        addSidebarBlock("jaehyun cho",
+                            `<strong>${section.name}</strong>에 <strong>${title}</strong>를 등록하였습니다.`
+                        );
                     }
-                    section.boxes.unshift(new Box(title, main, author));
-                    addSidebarBlock("jaehyun cho",
-                        `<strong>${section.name}</strong>에 <strong>${title}</strong>를 등록하였습니다.`
-                    );
                 }
             });
             this.showMainHTML();
