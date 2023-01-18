@@ -43,16 +43,19 @@ class Main {
 
     modifySectionHeaderTextListener() {
         const sectionHeaderTexts = document.querySelectorAll(".section_header_text");
-        const newSectionHeader = document.createElement("div");
-        newSectionHeader.className = "section_header";
-        newSectionHeader.innerHTML = `
-            <input type="text" class="section_header_text_input section_header_text" placeholder="섹션 제목을 입력하세요">
-            <span class="material-symbols-outlined section_confirm_button">check</span>
-        `;
 
         [...sectionHeaderTexts].forEach((sectionHeaderText) => {
             sectionHeaderText.addEventListener("dblclick", () => {
                 const originalSectionHeader = sectionHeaderText.parentElement;
+                const newSectionHeader = document.createElement("div");
+                newSectionHeader.className = "section_header";
+                newSectionHeader.innerHTML = `
+                    <input type="text" class="section_header_text_input section_header_text" placeholder="섹션 제목을 입력하세요"
+                     value="${originalSectionHeader.parentElement.id ?? ''}"
+                     >
+                    <span class="material-symbols-outlined section_confirm_button">check</span>
+                `;
+
                 originalSectionHeader.parentElement.replaceChild(newSectionHeader, originalSectionHeader);
 
                 document.querySelector(".section_confirm_button").addEventListener("click", () => {
@@ -189,12 +192,12 @@ class Main {
             button.addEventListener("mouseout", () => {
                 button.style.color = "#000000";
             });
-        })
+        });
     }
 
     switchAddBoxHTML(targetBox) {
-        const a = getAddBoxHTML(targetBox.id, targetBox.children[1].innerHTML);
-        targetBox.parentElement.replaceChild(a, targetBox);
+        const newBox = getAddBoxHTML(targetBox.id, targetBox.children[1].innerHTML);
+        targetBox.parentElement.replaceChild(newBox, targetBox);
     }
 }
 
