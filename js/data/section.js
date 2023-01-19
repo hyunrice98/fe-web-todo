@@ -1,8 +1,10 @@
 class Section {
+    id;
     name;
     boxes;
 
-    constructor(name = '', box = []) {
+    constructor(name = '', box = [], id) {
+        this.id = Math.floor(Math.random() * 1000000000);
         this.name = name;
         this.boxes = box;
     }

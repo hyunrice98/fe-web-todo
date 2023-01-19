@@ -4,6 +4,7 @@ import {setBoxDeleteButton} from "../popupHandler.js";
 import {setSectionAddButton, setSectionDeleteButton} from "../sectionHeaderHandler.js";
 import {dragHandler} from "../dragHandler.js";
 import {addSidebarBlock} from "./sidebarData.js"
+import {deleteSectionData, patchMainData, postSectionData} from "../server/mainData.js";
 
 class Main {
     constructor(sections = []) {
@@ -28,7 +29,7 @@ class Main {
         })
     }
 
-    async showMainHTML() {
+    showMainHTML() {
         const main = document.querySelector("#section_holder");
         main.innerHTML = this.sections.reduce((acc, section) => acc + section.getSectionHTML(), '');
 
@@ -39,6 +40,7 @@ class Main {
         setSectionAddButton();
         setSectionDeleteButton();
         dragHandler();
+        console.log(data);
     }
 
     modifySectionHeaderTextListener() {
@@ -60,6 +62,7 @@ class Main {
 
                 document.querySelector(".section_confirm_button").addEventListener("click", () => {
                     this.replaceSection(newSectionHeader.parentElement.id, newSectionHeader.children[0].value);
+                    patchMainData();
                     this.showMainHTML();
                 });
             });
@@ -83,6 +86,7 @@ class Main {
                 if (box.title === boxId) {
                     const index = section.boxes.indexOf(box);
                     section.boxes.splice(index, 1);
+                    patchMainData();
                 }
             });
         });
@@ -125,11 +129,13 @@ class Main {
                 if (section.name === section_id) {
                     if (boxTitle !== '') {
                         this.replaceBoxWithTitle(boxTitle, new Box(title, main, author));
+                        patchMainData();
                         addSidebarBlock("jaehyun cho",
                             `<strong>${section.name}</strong>의 <strong>${title}</strong>를 수정하였습니다.`
                         );
                     } else {
                         section.boxes.unshift(new Box(title, main, author));
+                        patchMainData();
                         addSidebarBlock("jaehyun cho",
                             `<strong>${section.name}</strong>에 <strong>${title}</strong>를 등록하였습니다.`
                         );
@@ -144,6 +150,8 @@ class Main {
         this.sections.forEach((section) => {
             if (section.name === sectionId) {
                 const index = data.sections.indexOf(section);
+                const sectionID = data.sections[index].id;
+                deleteSectionData(sectionID);
                 data.sections.splice(index, 1);
                 addSidebarBlock("jaehyun cho",
                     `<strong>${section.name}</strong> 칼럼을 삭제하였습니다.`
@@ -165,10 +173,11 @@ class Main {
             if (sectionName === '') return;
             const newSection = new Section(sectionName, []);
             this.sections.push(newSection);
+            postSectionData(newSection);
             addSidebarBlock("jaehyun cho",
                 `<strong>${sectionName}</strong> 칼럼을 등록하였습니다.`
             );
-            this.showMainHTML()
+            this.showMainHTML();
         });
     }
 
@@ -217,17 +226,6 @@ class Main {
     }
 }
 
-let data = new Main(
-    // [
-    //     new Section('해야할 일', [
-    //         new Box('Github 공부하기', 'add, commit, push', 'web'),
-    //         new Box('블로그에 포스팅할 것', '*Github 공부내용 *모던 자바스크립트 1장 공부내용', 'web')
-    //     ]),
-    //     new Section('하고 있는 일', []),
-    //     new Section('완료한 일', [
-    //         new Box('제목제목', '내용내용내용', '작가')
-    //     ])
-    // ]
-);
+let data = new Main();
 
 export {data, Main}

@@ -1,9 +1,9 @@
 class Box {
     constructor(title, main, author) {
+        this.id = Math.floor(Math.random() * 1000000000);
         this.title = title
         this.main = main
         this.author = author
-        // this.id = Date()
     }
 
     getBoxHTML() {

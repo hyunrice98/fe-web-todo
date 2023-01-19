@@ -17,14 +17,15 @@ function parseMainData(mainJSON) {
     mainJSON.forEach((sectionJSON) => {
         data.sections.push(parseSectionData(sectionJSON));
     });
-    console.log(data);
 }
 
 function parseSectionData(sectionJSON) {
-    let section = new Section()
+    let section = new Section();
+    section.id = sectionJSON['id'];
     section.name = sectionJSON['name'];
     section.boxes = sectionJSON['boxes'].map(function (box) {
         let b = new Box();
+        b.id = box['id'];
         b.title = box['title'];
         b.main = box['main'];
         b.author = box['author'];
@@ -33,22 +34,28 @@ function parseSectionData(sectionJSON) {
     return section;
 }
 
-async function uploadBox(sectionIndex, box) {
-    console.log(JSON.stringify(box));
-    await fetch(`${HOST}/data/${sectionIndex}`, {
-        method: 'PATCH',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(box)
-    });
-}
-
 async function patchMainData() {
-    await fetch(HOST + "/data", {
-        method: 'PATCH',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(data)
-    });
-    JSON.stringify(data);
+    for (const section of data.sections) {
+        await fetch(HOST + "/data/" + section.id, {
+            method: 'PATCH',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(section)
+        });
+    }
 }
 
-export {getMainData, patchMainData}
+async function postSectionData(section) {
+    await fetch(HOST + '/data/', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(section)
+    });
+}
+
+async function deleteSectionData(sectionID) {
+    await fetch(HOST + '/data/' + sectionID, {
+        method: 'DELETE'
+    });
+}
+
+export {getMainData, patchMainData, postSectionData, deleteSectionData}

@@ -1,5 +1,6 @@
 import {data} from "./data/mainData.js";
 import {addSidebarBlock} from "./data/sidebarData.js";
+import {patchMainData} from "./server/mainData.js";
 
 function dragHandler() {
     let dragged = null;
@@ -46,6 +47,7 @@ function dragHandler() {
             data.sections.forEach((section) => {
                 if (section.name === targetId) {
                     section.boxes.push(tempBox);
+                    patchMainData();
                     addSidebarBlock("jaehyun cho",
                         `<strong>${dragged.id}</strong>를 <strong>${tempSectionName}</strong>에서 <strong>${section.name}</strong>로 이동하였습니다.`
                     );
