@@ -94,7 +94,8 @@ class Main {
     }
 
     addBoxHTML(sectionId) {
-        const sectionMain = document.querySelectorAll(`.${sectionId}, .section_main`)[0];
+        console.log(document.querySelectorAll(`#${sectionId} > .section_main`));
+        const sectionMain = document.querySelectorAll(`#${sectionId} > .section_main`)[0];
         this.newAddBoxHTML(sectionMain);
     }
 

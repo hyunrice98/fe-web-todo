@@ -18,6 +18,7 @@ function setSectionAddButton() {
     for (const i of sectionAddButtons) {
         const sectionID = i.closest(".section").id;
         i.addEventListener("click", () => {
+            console.log(sectionID);
             data.addBoxHTML(sectionID);
         })
     }
