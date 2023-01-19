@@ -6,7 +6,7 @@ class SidebarData {
         this.sidebars = sidebars;
     }
 
-    getSidebarHTML() {
+    async getSidebarHTML() {
         const sidebar = document.querySelector("#sidebar");
         let html = `
             <button type="button" id="sidebar_close_button">

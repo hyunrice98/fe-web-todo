@@ -2,7 +2,7 @@ class Section {
     name;
     boxes;
 
-    constructor(name, box) {
+    constructor(name = '', box = []) {
         this.name = name;
         this.boxes = box;
     }

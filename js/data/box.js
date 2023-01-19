@@ -3,6 +3,7 @@ class Box {
         this.title = title
         this.main = main
         this.author = author
+        // this.id = Date()
     }
 
     getBoxHTML() {
@@ -44,8 +45,6 @@ function resizeTextarea() {
     boxAdditionText.oninput = function () {
         boxAdditionText.style.height = "";
         boxAdditionText.style.height = boxAdditionText.scrollHeight + "px";
-        console.log("height: " + boxAdditionText.style.height);
-        console.log("scrollHeight: " + boxAdditionText.style.scrollHeight);
     }
 }
 
