@@ -1,25 +1,30 @@
 import {main} from './data/mainData.js'
+import { addEvent } from './helperFunction/common.js';
 
 function setColumnDeleteButton() {
-    const columnDeleteButtons = document.querySelectorAll(".column_delete_button");
+    const columnDeleteBtnArray = document.querySelectorAll(".column_delete_button");
 
-    for (const i of columnDeleteButtons) {
-        const columnID = i.closest(".column").id;
-        i.addEventListener("click", () => {
-            main.deleteColumn(columnID);
-            main.showMainHTML();
-        });
+    for(const $btn of columnDeleteBtnArray) {
+        const $column = $btn.closest(".column");
+        const columnID = $column.id;
+
+        addEvent($btn, [
+            () => main.deleteColumn(columnID),
+            () => main.showMainHTML()
+        ])
     }
 }
 
 function setColumnAddButton() {
-    const columnAddButtons = document.querySelectorAll(".column_add_button");
+    const columnAddBtnArray = document.querySelectorAll(".column_add_button");
 
-    for (const i of columnAddButtons) {
-        const columnID = i.closest(".column").id;
-        i.addEventListener("click", () => {
-            main.addCardHTML(columnID);
-        })
+    for(const $btn of columnAddBtnArray) {
+        const $column = $btn.closest(".column");
+        const columnID = $column.id;
+
+        addEvent($btn, [
+            () => main.addCardHTML(columnID)
+        ])
     }
 }
 
