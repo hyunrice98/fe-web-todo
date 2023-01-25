@@ -4,7 +4,7 @@ function favHandler() {
     const favButton = document.querySelector("#fav");
 
     favButton.addEventListener("click", () => {
-        data.addSection();
+        data.addColumn();
     });
 }
 

@@ -2,8 +2,8 @@ import {SidebarBlock} from "./sidebarBlock.js";
 import {clickHeaderMenuButton, clickSidebarCloseButton} from "../sidebarHandler.js";
 
 class SidebarData {
-    constructor(sidebars) {
-        this.sidebars = sidebars;
+    constructor(sidebarBlocks) {
+        this.sidebarBlocks = sidebarBlocks;
     }
 
     async getSidebarHTML() {
@@ -15,7 +15,7 @@ class SidebarData {
             <ol id="sidebar_blocks">
         `
 
-        html += this.sidebars.reduce((acc, block) => acc + block.getSidebarBlockHTML(), '');
+        html += this.sidebarBlocks.reduce((acc, block) => acc + block.getSidebarBlockHTML(), '');
         html += '</ol>'
 
         sidebar.innerHTML = html;
@@ -25,7 +25,7 @@ class SidebarData {
 }
 
 function addSidebarBlock(name, text) {
-    sideData.sidebars.unshift(new SidebarBlock(name, text, parsedDate()));
+    sideData.sidebarBlocks.unshift(new SidebarBlock(name, text, parsedDate()));
     sideData.getSidebarHTML();
 }
 

@@ -1,67 +1,66 @@
-import {getAddSectionHTML, Section} from './section.js'
-import {Box, getAddBoxHTML, resizeTextarea} from './box.js'
-import {setBoxDeleteButton} from "../popupHandler.js";
-import {setSectionAddButton, setSectionDeleteButton} from "../sectionHeaderHandler.js";
+import {getAddColumnHTML, Column} from './column.js'
+import {Card, getAddCardHTML, resizeTextarea} from './card.js'
+import {setCardDeleteButton} from "../popupHandler.js";
+import {setColumnAddButton, setColumnDeleteButton} from "../columnHeaderHandler.js";
 import {dragHandler} from "../dragHandler.js";
 import {addSidebarBlock} from "./sidebarData.js"
-import {deleteSectionData, patchMainData, postSectionData} from "../server/mainData.js";
+import {deleteColumnData, patchMainData, postColumnData} from "../server/mainData.js";
 
 class Main {
-    constructor(sections = []) {
-        this.sections = sections
+    constructor(columns = []) {
+        this.columns = columns
     }
 
-    replaceSection(originalSectionName, newSectionName) {
-        this.sections.forEach((section) => {
-            if (section.name === originalSectionName) {
-                section.name = newSectionName;
+    replaceColumn(originalColumnName, newColumnName) {
+        this.columns.forEach((column) => {
+            if (column.name === originalColumnName) {
+                column.name = newColumnName;
             }
         });
     }
 
-    replaceBoxWithTitle(boxTitle, newBox) {
-        this.sections.forEach((section) => {
-            section.boxes.forEach((box, i) => {
-                if (box.title === boxTitle) {
-                    section.boxes[i] = newBox;
+    replaceCardWithTitle(cardTitle, newCard) {
+        this.columns.forEach((column) => {
+            column.cards.forEach((card, i) => {
+                if (card.title === cardTitle) {
+                    column.cards[i] = newCard;
                 }
             })
         })
     }
 
     showMainHTML() {
-        const main = document.querySelector("#section_holder");
-        main.innerHTML = this.sections.reduce((acc, section) => acc + section.getSectionHTML(), '');
+        const main = document.querySelector("#column_holder");
+        main.innerHTML = this.columns.reduce((acc, column) => acc + column.getColumnHTML(), '');
 
-        this.modifySectionHeaderTextListener();
-        setBoxDeleteButton();
-        this.setBoxDeleteButtonHover();
-        this.setBoxEditButtonListener();
-        setSectionAddButton();
-        setSectionDeleteButton();
+        this.modifyColumnHeaderTextListener();
+        setCardDeleteButton();
+        this.setCardDeleteButtonHover();
+        this.setCardEditButtonListener();
+        setColumnAddButton();
+        setColumnDeleteButton();
         dragHandler();
-        console.log(data);
     }
 
-    modifySectionHeaderTextListener() {
-        const sectionHeaderTexts = document.querySelectorAll(".section_header_text");
+    modifyColumnHeaderTextListener() {
+        const columnHeaderTexts = document.querySelectorAll(".column_header_text");
 
-        [...sectionHeaderTexts].forEach((sectionHeaderText) => {
-            sectionHeaderText.addEventListener("dblclick", () => {
-                const originalSectionHeader = sectionHeaderText.parentElement;
-                const newSectionHeader = document.createElement("div");
-                newSectionHeader.className = "section_header";
-                newSectionHeader.innerHTML = `
-                    <input type="text" class="section_header_text_input section_header_text" placeholder="섹션 제목을 입력하세요"
-                     value="${originalSectionHeader.parentElement.id ?? ''}"
+        [...columnHeaderTexts].forEach((columnHeaderText) => {
+            columnHeaderText.addEventListener("dblclick", () => {
+                const originalColumnHeader = columnHeaderText.parentElement;
+                const newColumnHeader = document.createElement("div");
+                newColumnHeader.className = "column_header";
+                newColumnHeader.innerHTML = `
+                    <input type="text" class="column_header_text_input column_header_text" placeholder="섹션 제목을 입력하세요"
+                     value="${originalColumnHeader.parentElement.id ?? ''}"
                      >
-                    <span class="material-symbols-outlined section_confirm_button">check</span>
+                    <span class="material-symbols-outlined column_confirm_button">check</span>
                 `;
 
-                originalSectionHeader.parentElement.replaceChild(newSectionHeader, originalSectionHeader);
+                originalColumnHeader.parentElement.replaceChild(newColumnHeader, originalColumnHeader);
 
-                document.querySelector(".section_confirm_button").addEventListener("click", () => {
-                    this.replaceSection(newSectionHeader.parentElement.id, newSectionHeader.children[0].value);
+                document.querySelector(".column_confirm_button").addEventListener("click", () => {
+                    this.replaceColumn(newColumnHeader.parentElement.id, newColumnHeader.children[0].value);
                     patchMainData();
                     this.showMainHTML();
                 });
@@ -69,23 +68,23 @@ class Main {
         });
     }
 
-    refreshNumberBox() {
-        const sectionHTMLHeaders = document.getElementsByClassName("number_box");
-        this.sections.forEach((section) => {
-            for (const numberBox of sectionHTMLHeaders) {
-                if (numberBox.id === section.name) {
-                    numberBox.innerHTML = section.boxes.length;
+    refreshNumberCard() {
+        const columnHTMLHeaders = document.getElementsByClassName("number_card");
+        this.columns.forEach((column) => {
+            for (const numberCard of columnHTMLHeaders) {
+                if (numberCard.id === column.name) {
+                    numberCard.innerHTML = column.cards.length;
                 }
             }
         });
     }
 
-    deleteBox(boxId) {
-        this.sections.forEach((section) => {
-            section.boxes.forEach((box) => {
-                if (box.title === boxId) {
-                    const index = section.boxes.indexOf(box);
-                    section.boxes.splice(index, 1);
+    deleteCard(cardId) {
+        this.columns.forEach((column) => {
+            column.cards.forEach((card) => {
+                if (card.title === cardId) {
+                    const index = column.cards.indexOf(card);
+                    column.cards.splice(index, 1);
                     patchMainData();
                 }
             });
@@ -93,52 +92,51 @@ class Main {
         this.showMainHTML();
     }
 
-    addBoxHTML(sectionId) {
-        console.log(document.querySelectorAll(`#${sectionId} > .section_main`));
-        const sectionMain = document.querySelectorAll(`#${sectionId} > .section_main`)[0];
-        this.newAddBoxHTML(sectionMain);
+    addCardHTML(columnId) {
+        const columnMain = document.querySelectorAll(`#${columnId} > .column_main`)[0];
+        this.newAddCardHTML(columnMain);
     }
 
-    newAddBoxHTML(section) {
-        section.prepend(getAddBoxHTML());
+    newAddCardHTML(column) {
+        column.prepend(getAddCardHTML());
         resizeTextarea();
-        this.setBoxAdditionCancelListener();
-        this.setBoxAdditionConfirmListener();
+        this.setCardAdditionCancelListener();
+        this.setCardAdditionConfirmListener();
     }
 
-    setBoxAdditionCancelListener() {
-        const boxCancelButton = document.querySelector("#box_addition_cancel");
-        boxCancelButton.addEventListener("click", () => {
-            const section = boxCancelButton.closest(".section_main")
-            section.removeChild(section.firstChild);
+    setCardAdditionCancelListener() {
+        const cardCancelButton = document.querySelector("#card_addition_cancel");
+        cardCancelButton.addEventListener("click", () => {
+            const column = cardCancelButton.closest(".column_main")
+            column.removeChild(column.firstChild);
         });
     }
 
-    setBoxAdditionConfirmListener(boxTitle = '') {
-        const boxConfirmButton = document.querySelector("#box_addition_confirm");
-        boxConfirmButton.addEventListener("click", () => {
-            const title = document.getElementsByClassName("box_addition_title")[0].value;
-            const main = document.getElementsByClassName("box_addition_text")[0].value;
+    setCardAdditionConfirmListener(cardTitle = '') {
+        const cardConfirmButton = document.querySelector("#card_addition_confirm");
+        cardConfirmButton.addEventListener("click", () => {
+            const title = document.getElementsByClassName("card_addition_title")[0].value;
+            const main = document.getElementsByClassName("card_addition_text")[0].value;
             const author = "jaehyun cho";
 
             if (title === '' || main === '') {
                 return;
             }
 
-            const section_id = boxConfirmButton.closest(".section").id;
-            this.sections.forEach((section) => {
-                if (section.name === section_id) {
-                    if (boxTitle !== '') {
-                        this.replaceBoxWithTitle(boxTitle, new Box(title, main, author));
+            const column_id = cardConfirmButton.closest(".column").id;
+            this.columns.forEach((column) => {
+                if (column.name === column_id) {
+                    if (cardTitle !== '') {
+                        this.replaceCardWithTitle(cardTitle, new Card(title, main, author));
                         patchMainData();
                         addSidebarBlock("jaehyun cho",
-                            `<strong>${section.name}</strong>의 <strong>${title}</strong>를 수정하였습니다.`
+                            `<strong>${column.name}</strong>의 <strong>${title}</strong>를 수정하였습니다.`
                         );
                     } else {
-                        section.boxes.unshift(new Box(title, main, author));
+                        column.cards.unshift(new Card(title, main, author));
                         patchMainData();
                         addSidebarBlock("jaehyun cho",
-                            `<strong>${section.name}</strong>에 <strong>${title}</strong>를 등록하였습니다.`
+                            `<strong>${column.name}</strong>에 <strong>${title}</strong>를 등록하였습니다.`
                         );
                     }
                 }
@@ -147,62 +145,62 @@ class Main {
         });
     }
 
-    deleteSection(sectionId) {
-        this.sections.forEach((section) => {
-            if (section.name === sectionId) {
-                const index = data.sections.indexOf(section);
-                const sectionID = data.sections[index].id;
-                deleteSectionData(sectionID);
-                data.sections.splice(index, 1);
+    deleteColumn(columnId) {
+        this.columns.forEach((column) => {
+            if (column.name === columnId) {
+                const index = data.columns.indexOf(column);
+                const columnID = data.columns[index].id;
+                deleteColumnData(columnID);
+                data.columns.splice(index, 1);
                 addSidebarBlock("jaehyun cho",
-                    `<strong>${section.name}</strong> 칼럼을 삭제하였습니다.`
+                    `<strong>${column.name}</strong> 칼럼을 삭제하였습니다.`
                 );
             }
         })
     }
 
-    addSection() {
-        const sectionHolder = document.querySelector("#section_holder");
-        sectionHolder.appendChild(getAddSectionHTML());
-        this.addSectionConfirmController();
+    addColumn() {
+        const columnHolder = document.querySelector("#column_holder");
+        columnHolder.appendChild(getAddColumnHTML());
+        this.addColumnConfirmController();
     }
 
-    addSectionConfirmController() {
-        const sectionConfirmButton = document.querySelector(".section_confirm_button");
-        sectionConfirmButton.addEventListener("click", () => {
-            const sectionName = sectionConfirmButton.previousElementSibling.value;
-            if (sectionName === '') return;
-            const newSection = new Section(sectionName, []);
-            this.sections.push(newSection);
-            postSectionData(newSection);
+    addColumnConfirmController() {
+        const columnConfirmButton = document.querySelector(".column_confirm_button");
+        columnConfirmButton.addEventListener("click", () => {
+            const columnName = columnConfirmButton.previousElementSibling.value;
+            if (columnName === '') return;
+            const newColumn = new Column(columnName, []);
+            this.columns.push(newColumn);
+            postColumnData(newColumn);
             addSidebarBlock("jaehyun cho",
-                `<strong>${sectionName}</strong> 칼럼을 등록하였습니다.`
+                `<strong>${columnName}</strong> 칼럼을 등록하였습니다.`
             );
             this.showMainHTML();
         });
     }
 
-    setBoxDeleteButtonHover() {
-        const deleteButtons = document.querySelectorAll(".box_delete_button");
+    setCardDeleteButtonHover() {
+        const deleteButtons = document.querySelectorAll(".card_delete_button");
         deleteButtons.forEach((button) => {
-            const targetBox = button.closest(".box");
+            const targetCard = button.closest(".card");
             button.addEventListener("mouseover", () => {
-                targetBox.style.outline = "solid #FF4343";
-                targetBox.style.backgroundColor = "#FFEEEC";
+                targetCard.style.outline = "solid #FF4343";
+                targetCard.style.backgroundColor = "#FFEEEC";
             });
             button.addEventListener("mouseout", () => {
-                targetBox.style.outline = "none";
-                targetBox.style.backgroundColor = "#FFFFFF";
+                targetCard.style.outline = "none";
+                targetCard.style.backgroundColor = "#FFFFFF";
             });
         })
     }
 
-    setBoxEditButtonListener() {
-        const modifyButtons = document.querySelectorAll(".box_edit_button");
+    setCardEditButtonListener() {
+        const modifyButtons = document.querySelectorAll(".card_edit_button");
         modifyButtons.forEach((button) => {
             button.addEventListener("click", () => {
-                const targetBox = button.closest(".box");
-                this.switchAddBoxHTML(targetBox);
+                const targetCard = button.closest(".card");
+                this.switchAddCardHTML(targetCard);
             });
             button.addEventListener("mouseover", () => {
                 button.style.color = "#0075DE";
@@ -213,17 +211,17 @@ class Main {
         });
     }
 
-    switchAddBoxHTML(targetBox) {
-        const newBox = getAddBoxHTML(targetBox.id, targetBox.children[1].innerHTML);
-        targetBox.parentElement.replaceChild(newBox, targetBox);
+    switchAddCardHTML(targetCard) {
+        const newCard = getAddCardHTML(targetCard.id, targetCard.children[1].innerHTML);
+        targetCard.parentElement.replaceChild(newCard, targetCard);
         resizeTextarea();
-        const boxTitle = targetBox.id
-        const cancelAddBoxButton = document.querySelector("#box_addition_cancel");
-        cancelAddBoxButton.addEventListener("click", () => {
-            cancelAddBoxButton.closest(".section_main").replaceChild(targetBox, newBox);
+        const cardTitle = targetCard.id
+        const cancelAddCardButton = document.querySelector("#card_addition_cancel");
+        cancelAddCardButton.addEventListener("click", () => {
+            cancelAddCardButton.closest(".column_main").replaceChild(targetCard, newCard);
         });
 
-        this.setBoxAdditionConfirmListener(boxTitle);
+        this.setCardAdditionConfirmListener(cardTitle);
     }
 }
 

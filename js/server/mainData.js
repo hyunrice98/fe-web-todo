@@ -1,6 +1,6 @@
 import {data} from "../data/mainData.js";
-import {Section} from "../data/section.js";
-import {Box} from "../data/box.js";
+import {Column} from "../data/column.js";
+import {Card} from "../data/card.js";
 
 const HOST = "http://localhost:3000";
 
@@ -14,48 +14,48 @@ async function getMainData() {
 }
 
 function parseMainData(mainJSON) {
-    mainJSON.forEach((sectionJSON) => {
-        data.sections.push(parseSectionData(sectionJSON));
+    mainJSON.forEach((columnJSON) => {
+        data.columns.push(parseColumnData(columnJSON));
     });
 }
 
-function parseSectionData(sectionJSON) {
-    let section = new Section();
-    section.id = sectionJSON['id'];
-    section.name = sectionJSON['name'];
-    section.boxes = sectionJSON['boxes'].map(function (box) {
-        let b = new Box();
-        b.id = box['id'];
-        b.title = box['title'];
-        b.main = box['main'];
-        b.author = box['author'];
-        return b;
+function parseColumnData(columnJSON) {
+    let column = new Column();
+    column.id = columnJSON['id'];
+    column.name = columnJSON['name'];
+    column.cards = columnJSON['cards'].map(function (card) {
+        let tempCard = new Card();
+        tempCard.id = card['id'];
+        tempCard.title = card['title'];
+        tempCard.main = card['main'];
+        tempCard.author = card['author'];
+        return tempCard;
     });
-    return section;
+    return column;
 }
 
 async function patchMainData() {
-    for (const section of data.sections) {
-        await fetch(HOST + "/data/" + section.id, {
+    for (const column of data.columns) {
+        await fetch(HOST + "/data/" + column.id, {
             method: 'PATCH',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(section)
+            body: JSON.stringify(column)
         });
     }
 }
 
-async function postSectionData(section) {
+async function postColumnData(column) {
     await fetch(HOST + '/data/', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(section)
+        body: JSON.stringify(column)
     });
 }
 
-async function deleteSectionData(sectionID) {
-    await fetch(HOST + '/data/' + sectionID, {
+async function deleteColumnData(columnID) {
+    await fetch(HOST + '/data/' + columnID, {
         method: 'DELETE'
     });
 }
 
-export {getMainData, patchMainData, postSectionData, deleteSectionData}
+export {getMainData, patchMainData, postColumnData, deleteColumnData}

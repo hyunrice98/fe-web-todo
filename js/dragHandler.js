@@ -6,54 +6,54 @@ function dragHandler() {
     let dragged = null;
 
     // dragged object transparency injection
-    const boxes = document.getElementsByClassName("box");
-    [...boxes].forEach((box) => {
-        box.addEventListener("dragstart", (event) => {
+    const cards = document.getElementsByClassName("card");
+    [...cards].forEach((card) => {
+        card.addEventListener("dragstart", (event) => {
             dragged = event.target;
             event.target.classList.add("dragging");
         });
-        box.addEventListener("dragend", (event) => {
+        card.addEventListener("dragend", (event) => {
             event.target.classList.remove("dragging");
         });
     });
 
     // data transfer after drag
-    const target = document.getElementsByClassName("section");
-    [...target].forEach((section) => {
-        section.addEventListener("dragover", (event) => {
+    const target = document.getElementsByClassName("column");
+    [...target].forEach((column) => {
+        column.addEventListener("dragover", (event) => {
             event.preventDefault();
         });
-        section.addEventListener("drop", (event) => {
+        column.addEventListener("drop", (event) => {
             event.preventDefault();
-            if (event.target.className === "section") {
+            if (event.target.className === "column") {
                 dragged.parentNode.removeChild(dragged);
                 event.target.appendChild(dragged);
             } else return;
 
-            let tempSectionName;
-            let tempBox;
-            for (const section of data.sections) {
-                section.boxes.forEach((box) => {
-                    if (box.title === dragged.id) {
-                        tempBox = box;
-                        tempSectionName = section.name;
-                        const index = section.boxes.indexOf(box);
-                        section.boxes.splice(index, 1);
+            let tempColumnName;
+            let tempCard;
+            for (const column of data.columns) {
+                column.cards.forEach((card) => {
+                    if (card.title === dragged.id) {
+                        tempCard = card;
+                        tempColumnName = column.name;
+                        const index = column.cards.indexOf(card);
+                        column.cards.splice(index, 1);
                     }
                 });
             }
 
             const targetId = event.target.id;
-            data.sections.forEach((section) => {
-                if (section.name === targetId) {
-                    section.boxes.push(tempBox);
+            data.columns.forEach((column) => {
+                if (column.name === targetId) {
+                    column.cards.push(tempCard);
                     patchMainData();
                     addSidebarBlock("jaehyun cho",
-                        `<strong>${dragged.id}</strong>를 <strong>${tempSectionName}</strong>에서 <strong>${section.name}</strong>로 이동하였습니다.`
+                        `<strong>${dragged.id}</strong>를 <strong>${tempColumnName}</strong>에서 <strong>${column.name}</strong>로 이동하였습니다.`
                     );
                 }
             });
-            data.refreshNumberBox();
+            data.refreshNumberCard();
         });
     });
 }

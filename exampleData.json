@@ -1,0 +1,47 @@
+{
+  "data": [
+    {
+      "id": 0,
+      "name": "해야할 일",
+      "cards": [
+        {
+          "id": 0,
+          "title": "Github 공부하기",
+          "main": "add, commit, push",
+          "author": "web"
+        },
+        {
+          "id": 1,
+          "title": "블로그에 포스팅할 것",
+          "main": "*Github 공부내용 *모던 자바스크립트 1장 공부내용",
+          "author": "web"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "name": "하고 있는 일",
+      "cards": []
+    },
+    {
+      "id": 2,
+      "name": "완료한 일",
+      "cards": [
+        {
+          "id": 0,
+          "title": "제목제목",
+          "main": "내용내용내용",
+          "author": "작가"
+        }
+      ]
+    }
+  ],
+  "sidebarData": [
+    {
+      "id": 0,
+      "name": "jaehyun cho",
+      "text": "블로그에 포스팅할 것을 하고 있는 일에서 완료한 일로 이동하였습니다.",
+      "time": "2023/1/18 16:41"
+    }
+  ]
+}

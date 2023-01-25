@@ -3,11 +3,11 @@ import {addSidebarBlock} from "./data/sidebarData.js";
 
 const popup = document.getElementById("popup_overlay");
 
-function setBoxDeleteButton() {
-    const boxDeleteButtons = document.querySelectorAll(".box_delete_button");
+function setCardDeleteButton() {
+    const cardDeleteButtons = document.querySelectorAll(".card_delete_button");
 
     // TODO: 위임
-    boxDeleteButtons.forEach((button) => {
+    cardDeleteButtons.forEach((button) => {
         const id = button.parentElement.id;
         button.addEventListener("click", () => {
             showModal(id);
@@ -21,7 +21,7 @@ function showModal() {
     popup.innerHTML = `
     <div id="popup" class="popup">
         <p class="popup_text">선택한 카드를 삭제할까요?</p>
-        <div class="button_container" id="box_deletion_popup_buttons">
+        <div class="button_container" id="card_deletion_popup_buttons">
             <button class="grey_button" id="popup_cancel">취소</button>
             <button class="blue_button" id="popup_delete">삭제</button>
         </div>
@@ -46,9 +46,9 @@ function setPopupDeleteButton(id) {
         popup.innerHTML = ``;
         popup.classList.remove('visible');
         popup.classList.add('invisible');
-        data.deleteBox(id);
+        data.deleteCard(id);
         addSidebarBlock("jaehyun cho", "<strong>" + id + "</strong>를 삭제하였습니다.");
     });
 }
 
-export {setBoxDeleteButton}
+export {setCardDeleteButton}

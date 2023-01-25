@@ -148,37 +148,37 @@ main {
     overflow-y: scroll;
 }
 
-#section_holder {
+#column_holder {
     position: relative;
     display: flex;
 }
 
-.section {
+.column {
     flex: 1;
     min-width: 300px;
     margin: 8px;
     padding-bottom: 100px;
 }
 
-.section_header {
+.column_header {
     display: flex;
     align-items: center;
     height: 32px;
     margin: 0 0 16px 0;
 }
 
-.section_header_text {
+.column_header_text {
     font-size: 18px;
     font-weight: 700;
     display: inline-block;
     margin-left: 8px;
 }
 
-.section_header_text:hover {
+.column_header_text:hover {
     color: #0075DE;
 }
 
-.number_box {
+.number_card {
     display: inline-block;
     width: 26px;
     height: 26px;
@@ -187,28 +187,28 @@ main {
     background-color: #BDBDBD;
 }
 
-.section_add_button {
+.column_add_button {
     display: inline-block;
     margin-left: auto;
     background-color: #E5E5E5;
 }
 
-.section_add_button:hover {
+.column_add_button:hover {
     color: #0075DE;
 }
 
-.section_delete_button {
+.column_delete_button {
     display: inline-block;
     float: right;
     margin-left: 16px;
     background-color: #E5E5E5;
 }
 
-.section_delete_button:hover {
+.column_delete_button:hover {
     color: #FF4343;
 }
 
-.number_box {
+.number_card {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -219,86 +219,86 @@ main {
     background: #BDBDBD;
 }
 
-.section_confirm_button {
+.column_confirm_button {
     margin-left: 8px;
 }
 
-.section_confirm_button:hover {
+.column_confirm_button:hover {
     color: #0075DE;
 }
 
-/* Default box */
+/* Default card */
 
-.box {
+.card {
     min-width: 200px;
     margin-bottom: 16px;
     padding: 0 16px 16px;
     border-radius: 6px;
     background-color: #FFFFFF;
-    box-shadow: 0 1px 30px rgba(224, 224, 224, 0.3);
+    card-shadow: 0 1px 30px rgba(224, 224, 224, 0.3);
 }
 
-.box_title {
+.card_title {
     display: flex;
     align-items: center;
     justify-content: space-between;
     height: 48px;
 }
 
-.box_delete_button {
+.card_delete_button {
     margin-left: auto;
     float: right;
 }
 
-.box_edit_button {
+.card_edit_button {
     float: right;
 }
 
-.box_delete_button:hover {
+.card_delete_button:hover {
     color: #FF4343;
 }
 
-.box_title_text {
+.card_title_text {
     font-size: 16px;
     font-weight: 700;
 }
 
-.box_main_text {
+.card_main_text {
     font-size: 14px;
     margin-top: 0;
     margin-bottom: 0;
 }
 
-.box_author_text {
+.card_author_text {
     font-size: 12px;
     margin-top: 8px;
     margin-bottom: 0;
     color: #BDBDBD;
 }
 
-/* Addition box */
+/* Addition card */
 
-.box_addition {
+.card_addition {
     padding: 16px;
     border: solid #0075DE;
 }
 
-.box_addition_title {
+.card_addition_title {
     margin: 0;
 }
 
-.box_addition_text {
+.card_addition_text {
     margin-top: 16px;
 }
 
-/* Deletion box */
+/* Deletion card */
 
-.box_deletion {
+.card_deletion {
     border: solid #FF4343;
     background-color: #FFEEEC;
 }
 
-.box_deletion .box_delete_button {
+.card_deletion .card_delete_button {
     background-color: #FFEEEC
 }
 
@@ -313,7 +313,7 @@ main {
     height: 100%;
     padding: 40px;
     background-color: #FFFFFF;
-    box-shadow: rgba(204, 204, 204, 0.5);
+    card-shadow: rgba(204, 204, 204, 0.5);
     overflow-y: scroll;
 }
 
@@ -381,7 +381,7 @@ main {
     margin-top: 0;
 }
 
-#box_deletion_popup_buttons {
+#card_deletion_popup_buttons {
     margin-bottom: 0;
     margin-left: 100px;
 }
