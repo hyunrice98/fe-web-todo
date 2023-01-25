@@ -5,6 +5,9 @@ class Column {
     name;
     cards;
 
+    getID = () =>  this.id
+    getName = () => this.name
+
     constructor(name = '', card = [], id) {
         this.id = Math.floor(Math.random() * 1_000_000_000);
         this.name = name;

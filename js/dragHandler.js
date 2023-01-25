@@ -3,14 +3,14 @@ import { addSidebarBlock } from "./data/sidebarData.js";
 import { addEvent, pipe } from "./helperFunction/common.js";
 import { patchMainData } from "./server/mainData.js";
 
-let dragCard = null;
+let $dragCard = null;
 HTMLCollection.prototype.forEach = Array.prototype.forEach;
 
 const dragEventToEveryCard = () => pipe(
     ($cardArray) => {
         $cardArray.forEach(($card) => {
             addEvent($card, [
-                (event) => dragCard = event.target,
+                (event) => $dragCard = event.target,
                 (event) => event.target.classList.add("dragging")
             ], "dragstart");
 
@@ -24,50 +24,41 @@ const dragEventToEveryCard = () => pipe(
 const dragEventToEveryColumn = () => {
     const columnArray = document.querySelectorAll(".column");
     columnArray.forEach(($column) => {
+        addEvent($column, [(event) => event.preventDefault()], "dragover");
         addEvent($column, [
-            (event) => event.preventDefault()
-        ], "dragover")
+            ({target}) => {
+                if(target.className !== "column") return;
 
-        addEvent($column, [
-            (event) => {
-                const targetId = event.target.id;
-                if(event.target.className !== "column") return;
-                const $currentColumn = dragCard.parentNode;
-                $currentColumn.removeChild(dragCard);
-                // dragCard.parentNode.removeChild(dragCard);
-                event.target.appendChild(dragCard);
+                const $prevColumn = $dragCard.closest("li.column");
+                const $prevColumnContent = $dragCard.parentNode;
+                $prevColumnContent.removeChild($dragCard);
 
-                let tempColumnName;
-                let tempCard;
-                for (const column of main.columns) {
-                    column.cards.forEach((card) => {
-                        if (card.title === dragCard.id) {
-                            tempCard = card;
-                            tempColumnName = column.name;
-                            const index = column.cards.indexOf(card);
-                            column.cards.splice(index, 1);
-                        }
-                    });
+                const prevColumn = main.columns.filter((column) => $prevColumn.getAttribute("id") == column.getName())[0];
+                const nextColumn = main.columns.filter((column) => column.name == target.id)[0];
+
+                for(const [index, card] of prevColumn.cards.entries()) {
+                    if(card.title !== $dragCard.id) continue;
+                    prevColumn.cards.splice(index, 1);
+                    nextColumn.cards.push(card)
                 }
-                
-                for(const column of main.columns) {
-                    if(column.name !== targetId) continue;
-                    column.cards.push(tempCard);
-                    patchMainData();
-                    addSidebarBlock("jaehyun cho",
-                        `<strong>${dragCard.id}</strong>를 <strong>${tempColumnName}</strong>에서 <strong>${column.name}</strong>로 이동하였습니다.`
-                    );
-                }
+                    
+                addSidebarBlock(`
+                    <strong>${$dragCard.id}</strong>를 
+                    <strong>${prevColumn.getName()}</strong>에서 
+                    <strong>${nextColumn.name}</strong>로 이동하였습니다.
+                `);
 
-                main.refreshNumberCircle();
-            }
+                target.appendChild($dragCard);
+            },
+            () => patchMainData(),
+            () => main.refreshNumberCircle()
         ], "drop");
     })
 }
 
-function dragHandler() {
-    dragEventToEveryCard();
-    dragEventToEveryColumn();
-}
+const dragHandler = () => pipe(
+    dragEventToEveryCard,
+    dragEventToEveryColumn
+)()
 
 export {dragHandler}

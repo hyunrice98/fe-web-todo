@@ -5,7 +5,6 @@ import { eventToColumnBtns } from "../columnHeaderHandler.js";
 import {dragHandler} from "../dragHandler.js";
 import {addSidebarBlock} from "./sidebarData.js"
 import {deleteColumnData, patchMainData, postColumnData} from "../server/mainData.js";
-import { pipe } from '../helperFunction/common.js';
 
 class Main {
     constructor(columns = []) {
@@ -139,15 +138,11 @@ class Main {
                     if (cardTitle !== '') {
                         this.replaceCardWithTitle(cardTitle, new Card(title, main, author));
                         patchMainData();
-                        addSidebarBlock("jaehyun cho",
-                            `<strong>${column.name}</strong>의 <strong>${title}</strong>를 수정하였습니다.`
-                        );
+                        addSidebarBlock(`<strong>${column.name}</strong>의 <strong>${title}</strong>를 수정하였습니다.`);
                     } else {
                         column.cards.unshift(new Card(title, main, author));
                         patchMainData();
-                        addSidebarBlock("jaehyun cho",
-                            `<strong>${column.name}</strong>에 <strong>${title}</strong>를 등록하였습니다.`
-                        );
+                        addSidebarBlock(`<strong>${column.name}</strong>에 <strong>${title}</strong>를 등록하였습니다.`);
                     }
                 }
             });
@@ -162,9 +157,7 @@ class Main {
                 const columnID = main.columns[index].id;
                 deleteColumnData(columnID);
                 main.columns.splice(index, 1);
-                addSidebarBlock("jaehyun cho",
-                    `<strong>${column.name}</strong> 칼럼을 삭제하였습니다.`
-                );
+                addSidebarBlock(`<strong>${column.name}</strong> 칼럼을 삭제하였습니다.`);
             }
         });
     }
@@ -183,9 +176,7 @@ class Main {
             const newColumn = new Column(columnName, []);
             this.columns.push(newColumn);
             postColumnData(newColumn);
-            addSidebarBlock("jaehyun cho",
-                `<strong>${columnName}</strong> 칼럼을 등록하였습니다.`
-            );
+            addSidebarBlock(`<strong>${columnName}</strong> 칼럼을 등록하였습니다.`);
             this.showMainHTML();
         });
     }

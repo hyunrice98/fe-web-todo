@@ -46,7 +46,7 @@ function setPopupDeleteButton(id) {
         popup.classList.remove('visible');
         popup.classList.add('invisible');
         main.deleteCard(id);
-        addSidebarBlock("jaehyun cho", "<strong>" + id + "</strong>를 삭제하였습니다.");
+        addSidebarBlock("<strong>" + id + "</strong>를 삭제하였습니다.");
     });
 }
 
