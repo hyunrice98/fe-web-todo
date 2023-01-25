@@ -21,7 +21,7 @@ class Card {
     `;
 }
 
-const getCardRegisterTemplate = () => pipe(
+const getCardRegisterTemplate = (title, text) => pipe(
     () => document.createElement("li"),
     ($cardRegisterForm) => {
         $cardRegisterForm.classList.add("card", "card_addtion");
@@ -48,7 +48,7 @@ const resizeCardInput = () => pipe(
         $cardInput.style.height = $cardInput.scrollHeight + "px";
         return $cardInput;
     },
-    () => {
+    ($cardInput) => {
         addEvent($cardInput, [
             () => {
                 $cardInput.style.height = "";

@@ -18,7 +18,7 @@ function setColumnAddButton() {
     for (const i of columnAddButtons) {
         const columnID = i.closest(".column").id;
         i.addEventListener("click", () => {
-            data.addCardHTML(columnID);
+            main.addCardHTML(columnID);
         })
     }
 }

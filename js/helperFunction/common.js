@@ -1,6 +1,6 @@
 const addEvent = ($target, callBackArray, eventType="click") => {
-    callBackArray.forEach((callBack), () => {
-        $target.addEventListener(eventType, callBack);
+    callBackArray.forEach((callBack) => {
+        $target.addEventListener(eventType, callBack)
     })
 }
 

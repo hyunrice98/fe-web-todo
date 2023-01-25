@@ -5,8 +5,7 @@ class SidebarBlock {
         this.time = time;
     }
 
-    getSidebarBlockHTML() {
-        return `
+    getSidebarBlockHTML = () => `
         <li class="sidebar_block">
             <p class="sidebar_block_emoji">🥳</p>
             <div class="sidebar_block_text_container">
@@ -15,8 +14,7 @@ class SidebarBlock {
                 <p class="sidebar_block_time">${this.time}</p>
             </div>
         </li>
-        `
-    }
+    `;
 }
 
 export {SidebarBlock}

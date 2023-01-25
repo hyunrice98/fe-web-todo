@@ -5,25 +5,35 @@ import {setColumnAddButton, setColumnDeleteButton} from "../columnHeaderHandler.
 import {dragHandler} from "../dragHandler.js";
 import {addSidebarBlock} from "./sidebarData.js"
 import {deleteColumnData, patchMainData, postColumnData} from "../server/mainData.js";
+import { pipe } from '../helperFunction/common.js';
 
 class Main {
     constructor(columns = []) {
         this.columns = columns
     }
 
-    replaceColumn(originalColumnName, newColumnName) {
-        this.columns.forEach((column) => {
-            if (column.name === originalColumnName) {
-                column.name = newColumnName;
+    replaceColumn(prevName, newName) {
+        for(const $column of this.columns) {
+            if($column.name === prevName) {
+                $column.name = newName;
             }
-        });
+        }
     }
 
-    replaceCardWithTitle(cardTitle, newCard) {
+    replaceCardWithTitle(cardTitle, $newCard) {
+        for(const $column of this.columns) {
+            for(const [$card, index] of $column.cards.entries()) {
+                console.log($card, index);
+                if($card.title === cardTitle) {
+                    $column.cards[index] = $newCard;
+                }
+            }
+        }
+
         this.columns.forEach((column) => {
-            column.cards.forEach((card, i) => {
+            column.cards.forEach((card, index) => {
                 if (card.title === cardTitle) {
-                    column.cards[i] = newCard;
+                    column.cards[index] = $newCard;
                 }
             });
         });
@@ -93,8 +103,9 @@ class Main {
     }
 
     addCardHTML(columnId) {
-        const columnMain = document.querySelectorAll(`#${columnId} > .column_main`)[0];
-        this.newAddCardHTML(columnMain);
+        const $column = document.getElementById(columnId);
+        const $columnMain = $column.querySelector(".column_main");
+        this.newAddCardHTML($columnMain);
     }
 
     newAddCardHTML(column) {

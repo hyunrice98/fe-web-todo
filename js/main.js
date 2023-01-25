@@ -8,7 +8,7 @@ await getMainData();
 
 // Dom imports with initial data
 await main.showMainHTML();
-await sideData.getSidebarHTML();
+await sideData.getTemplate();
 
 // Menubar Showing
 favHandler();
