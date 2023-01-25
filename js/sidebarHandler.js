@@ -1,4 +1,4 @@
-import { addEvent, pipe } from "./helperFunction/common.js";
+import { addEvent, pipe } from "./helper/commonFunction.js";
 
 const sidebar = document.getElementById("sidebar");
 

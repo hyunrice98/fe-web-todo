@@ -1,6 +1,6 @@
 import { main } from './data/mainData.js'
 import { addSidebarBlock } from "./data/sidebarData.js";
-import { addEvent } from './helperFunction/common.js';
+import { addEvent } from './helper/commonFunction.js';
 
 const popup = document.getElementById("popup_overlay");
 

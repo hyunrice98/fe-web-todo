@@ -1,6 +1,6 @@
 import {SidebarBlock} from "./sidebarBlock.js";
 import {eventToSideBarBtns } from "../sidebarHandler.js";
-import { pipe } from "../helperFunction/common.js";
+import { pipe } from "../helper/commonFunction.js";
 
 class SidebarData {
     constructor(sidebarBlocks) {

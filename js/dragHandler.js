@@ -1,6 +1,6 @@
 import { main } from "./data/mainData.js";
 import { addSidebarBlock } from "./data/sidebarData.js";
-import { addEvent, pipe } from "./helperFunction/common.js";
+import { addEvent, pipe } from "./helper/commonFunction.js";
 import { patchMainData } from "./server/mainData.js";
 
 let $dragCard = null;

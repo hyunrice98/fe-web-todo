@@ -1,8 +1,9 @@
-import { pipe, addEvent } from "../helperFunction/common.js";
+import { pipe, addEvent } from "../helper/commonFunction.js";
+import { ID_DIVISTION_NUMBER } from "../helper/commonVariable.js"
 
 class Card {
     constructor(title, main, author) {
-        this.id = Math.floor(Math.random() * 1_000_000_000);
+        this.id = Math.floor(Math.random() * ID_DIVISTION_NUMBER);
         this.title = title;
         this.main = main;
         this.author = author;

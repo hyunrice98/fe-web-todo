@@ -1,5 +1,5 @@
 import { main } from './data/mainData.js'
-import { addEvent, pipe } from './helperFunction/common.js';
+import { addEvent, pipe } from './helper/commonFunction.js';
 
 function eventToColumnDeleteBtns() {
     const columnDeleteBtnArray = document.querySelectorAll(".column_delete_button");

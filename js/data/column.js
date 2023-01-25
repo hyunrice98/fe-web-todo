@@ -1,4 +1,5 @@
-import { pipe } from "../helperFunction/common.js";
+import { pipe } from "../helper/commonFunction.js";
+import { ID_DIVISTION_NUMBER } from "../helper/commonVariable.js";
 
 class Column {
     id;
@@ -9,7 +10,7 @@ class Column {
     getName = () => this.name
 
     constructor(name = '', card = [], id) {
-        this.id = Math.floor(Math.random() * 1_000_000_000);
+        this.id = Math.floor(Math.random() * ID_DIVISTION_NUMBER);
         this.name = name;
         this.cards = card;
     }
