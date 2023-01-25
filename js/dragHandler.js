@@ -53,7 +53,7 @@ function dragHandler() {
                     );
                 }
             });
-            data.refreshNumberCard();
+            data.refreshNumberCircle();
         });
     });
 }

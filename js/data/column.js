@@ -16,7 +16,7 @@ class Column {
             <li class="column" id="${this.name}">
                 <div class="column_header">
                     <p class="column_header_text">${this.name}</p>
-                    <div class="number_card" id="${this.name}">${this.cards.length}</div>
+                    <div class="number_circle" id="${this.name}">${this.cards.length}</div>
                     <span class="material-symbols-outlined column_add_button">add</span>
                     <span class="material-symbols-outlined column_delete_button">close</span>
                 </div>

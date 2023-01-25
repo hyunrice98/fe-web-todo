@@ -25,8 +25,8 @@ class Main {
                 if (card.title === cardTitle) {
                     column.cards[i] = newCard;
                 }
-            })
-        })
+            });
+        });
     }
 
     showMainHTML() {
@@ -68,12 +68,12 @@ class Main {
         });
     }
 
-    refreshNumberCard() {
-        const columnHTMLHeaders = document.getElementsByClassName("number_card");
+    refreshNumberCircle() {
+        const columnHTMLHeaders = document.getElementsByClassName("number_circle");
         this.columns.forEach((column) => {
-            for (const numberCard of columnHTMLHeaders) {
-                if (numberCard.id === column.name) {
-                    numberCard.innerHTML = column.cards.length;
+            for (const numberCircle of columnHTMLHeaders) {
+                if (numberCircle.id === column.name) {
+                    numberCircle.innerHTML = column.cards.length;
                 }
             }
         });
@@ -156,7 +156,7 @@ class Main {
                     `<strong>${column.name}</strong> 칼럼을 삭제하였습니다.`
                 );
             }
-        })
+        });
     }
 
     addColumn() {
@@ -192,7 +192,7 @@ class Main {
                 targetCard.style.outline = "none";
                 targetCard.style.backgroundColor = "#FFFFFF";
             });
-        })
+        });
     }
 
     setCardEditButtonListener() {
@@ -215,12 +215,11 @@ class Main {
         const newCard = getAddCardHTML(targetCard.id, targetCard.children[1].innerHTML);
         targetCard.parentElement.replaceChild(newCard, targetCard);
         resizeTextarea();
-        const cardTitle = targetCard.id
+        const cardTitle = targetCard.id;
         const cancelAddCardButton = document.querySelector("#card_addition_cancel");
         cancelAddCardButton.addEventListener("click", () => {
             cancelAddCardButton.closest(".column_main").replaceChild(targetCard, newCard);
         });
-
         this.setCardAdditionConfirmListener(cardTitle);
     }
 }

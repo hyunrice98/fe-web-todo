@@ -6,18 +6,17 @@ const popup = document.getElementById("popup_overlay");
 function setCardDeleteButton() {
     const cardDeleteButtons = document.querySelectorAll(".card_delete_button");
 
-    // TODO: 위임
     cardDeleteButtons.forEach((button) => {
         const id = button.parentElement.id;
         button.addEventListener("click", () => {
-            showModal(id);
+            showPopup(id);
             setPopupCancelButton();
             setPopupDeleteButton(id);
         });
     });
 }
 
-function showModal() {
+function showPopup() {
     popup.innerHTML = `
     <div id="popup" class="popup">
         <p class="popup_text">선택한 카드를 삭제할까요?</p>
