@@ -1,5 +1,5 @@
 import {getNewColumnTemplate, Column} from './column.js'
-import {Card, getCardRegisterTemplate, resizeCardInput} from './card.js'
+import {Card, getCardRegisterNode, resizeCardInput} from './card.js'
 import { eventToCardDeleteBtns } from "../popupHandler.js";
 import { eventToColumnBtns } from "../columnHeaderHandler.js";
 import {dragHandler} from "../dragHandler.js";
@@ -36,8 +36,8 @@ class Main {
 
         this.modifyColumnHeaderTextListener();
         eventToCardDeleteBtns();
-        this.setCardDeleteButtonHover();
-        this.setCardEditButtonListener();
+        this.hoverEventToCardDeleteBtn();
+        this.eventToCardEditBtn();
         eventToColumnBtns();
         dragHandler();
     }
@@ -98,7 +98,7 @@ class Main {
     )(document.getElementById(columnID));
 
     newAddCardHTML(column) {
-        column.prepend(getCardRegisterTemplate());
+        column.prepend(getCardRegisterNode());
         resizeCardInput();
         this.setCardAdditionCancelListener();
         this.setCardAdditionConfirmListener();
@@ -175,7 +175,7 @@ class Main {
         ])
     )(document.querySelector(".column_confirm_button"));
 
-    setCardDeleteButtonHover() {
+    hoverEventToCardDeleteBtn() {
         const $deleteBtns = document.querySelectorAll(".card_delete_button");
         $deleteBtns.forEach(($btn) => {
             const targetCard = $btn.closest(".card");
@@ -192,7 +192,7 @@ class Main {
         });
     }
 
-    setCardEditButtonListener() {
+    eventToCardEditBtn() {
         const $modifyBtns = document.querySelectorAll(".card_edit_button");
         $modifyBtns.forEach(($btn) => {
             addEvent($btn, [() => this.switchAddCardHTML($btn.closest(".card"))]);
@@ -201,17 +201,19 @@ class Main {
         });
     }
 
-    switchAddCardHTML(targetCard) {
-        const $cardAddCancelBtn = document.querySelector("#card_addition_cancel");
-        const cardTitle = targetCard.id;
-        const newCard = getCardRegisterTemplate(cardTitle, targetCard.children[1].innerHTML);
-        targetCard.parentElement.replaceChild(newCard, targetCard);
-        resizeCardInput();
-        addEvent($cardAddCancelBtn, [
-            () => $cardAddCancelBtn.closest(".column_main").replaceChild(targetCard, newCard)
-        ]);
-        this.setCardAdditionConfirmListener(cardTitle);
-    }
+    switchAddCardHTML = (targetCard) => pipe(
+        ($newCard) => {
+            targetCard.parentElement.replaceChild($newCard, targetCard);
+            return $newCard.querySelector("#card_addition_cancel");
+        },
+        ($cancelBtn) => 
+            addEvent($cancelBtn, [
+            () => $cardAddCancelBtn.closest(".column_main").replaceChild(targetCard, newCard)]),
+        () => {
+            this.setCardAdditionConfirmListener(cardTitle);
+            resizeCardInput();
+        }
+    )(getCardRegisterNode(targetCard.id, targetCard.querySelector(".card_main_text").innerHTML));
 }
 
 const main = new Main();

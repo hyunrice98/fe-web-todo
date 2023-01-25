@@ -17,4 +17,4 @@ class SidebarBlock {
     `;
 }
 
-export {SidebarBlock}
+export { SidebarBlock }

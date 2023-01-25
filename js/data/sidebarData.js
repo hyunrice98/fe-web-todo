@@ -32,10 +32,10 @@ const parsedDate = () => pipe(
     `
 )(new Date());
 
-function addSidebarBlock(text, name="jaehyun cho") {
-    sideData.sidebarBlocks.unshift(new SidebarBlock(name, text, parsedDate()));
-    sideData.getTemplate();
-}
+const addSidebarBlock = (text, name="jaehyun cho") => pipe(
+    () => sideData.sidebarBlocks.unshift(new SidebarBlock(name, text, parsedDate())),
+    () => sideData.getTemplate()
+)();
 
 const sideData = new SidebarData([]);
 

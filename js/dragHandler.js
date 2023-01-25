@@ -2,6 +2,7 @@ import { main } from "./data/mainData.js";
 import { addSidebarBlock } from "./data/sidebarData.js";
 import { addEvent, pipe } from "./helper/commonFunction.js";
 import { patchMainData } from "./server/mainData.js";
+import { menuMoveTemplate } from "./template.js";
 
 let $dragCard = null;
 HTMLCollection.prototype.forEach = Array.prototype.forEach;
@@ -29,11 +30,10 @@ const dragEventToEveryColumn = () => {
             ({target}) => {
                 if(target.className !== "column") return;
 
-                const $prevColumn = $dragCard.closest("li.column");
-                const $prevColumnContent = $dragCard.parentNode;
-                $prevColumnContent.removeChild($dragCard);
+                const prevColumnID = $dragCard.closest("li.column").getAttribute("id");
+                $dragCard.remove();
 
-                const prevColumn = main.columns.filter((column) => $prevColumn.getAttribute("id") == column.getName())[0];
+                const prevColumn = main.columns.filter((column) => prevColumnID == column.getName())[0];
                 const nextColumn = main.columns.filter((column) => column.name == target.id)[0];
 
                 for(const [index, card] of prevColumn.cards.entries()) {
@@ -41,12 +41,8 @@ const dragEventToEveryColumn = () => {
                     prevColumn.cards.splice(index, 1);
                     nextColumn.cards.push(card)
                 }
-                    
-                addSidebarBlock(`
-                    <strong>${$dragCard.id}</strong>를 
-                    <strong>${prevColumn.getName()}</strong>에서 
-                    <strong>${nextColumn.name}</strong>로 이동하였습니다.
-                `);
+
+                addSidebarBlock(menuMoveTemplate($dragCard.id, prevColumn.getName(), nextColumn.name));
 
                 target.appendChild($dragCard);
             },
