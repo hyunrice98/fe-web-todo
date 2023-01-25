@@ -1,5 +1,5 @@
 import {SidebarBlock} from "./sidebarBlock.js";
-import {clickHeaderMenuButton, clickSidebarCloseButton} from "../sidebarHandler.js";
+import {eventToSideBarBtns } from "../sidebarHandler.js";
 import { pipe } from "../helperFunction/common.js";
 
 class SidebarData {
@@ -20,8 +20,7 @@ class SidebarData {
         html += '</ol>'
 
         sidebar.innerHTML = html;
-        clickHeaderMenuButton();
-        clickSidebarCloseButton();
+        eventToSideBarBtns();
     }
 }
 
