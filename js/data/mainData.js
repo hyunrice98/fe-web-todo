@@ -1,4 +1,4 @@
-import {getAddColumnHTML, Column} from './column.js'
+import {getNewColumnTemplate, Column} from './column.js'
 import {Card, getCardRegisterTemplate, resizeCardInput} from './card.js'
 import {setCardDeleteButton} from "../popupHandler.js";
 import {setColumnAddButton, setColumnDeleteButton} from "../columnHeaderHandler.js";
@@ -31,7 +31,7 @@ class Main {
 
     showMainHTML() {
         const main = document.querySelector("#column_holder");
-        main.innerHTML = this.columns.reduce((acc, column) => acc + column.getColumnHTML(), '');
+        main.innerHTML = this.columns.reduce((acc, column) => acc + column.getTemplate(), '');
 
         this.modifyColumnHeaderTextListener();
         setCardDeleteButton();
@@ -148,10 +148,10 @@ class Main {
     deleteColumn(columnId) {
         this.columns.forEach((column) => {
             if (column.name === columnId) {
-                const index = data.columns.indexOf(column);
-                const columnID = data.columns[index].id;
+                const index = main.columns.indexOf(column);
+                const columnID = main.columns[index].id;
                 deleteColumnData(columnID);
-                data.columns.splice(index, 1);
+                main.columns.splice(index, 1);
                 addSidebarBlock("jaehyun cho",
                     `<strong>${column.name}</strong> 칼럼을 삭제하였습니다.`
                 );
@@ -161,7 +161,7 @@ class Main {
 
     addColumn() {
         const columnHolder = document.querySelector("#column_holder");
-        columnHolder.appendChild(getAddColumnHTML());
+        columnHolder.appendChild(getNewColumnTemplate());
         this.addColumnConfirmController();
     }
 

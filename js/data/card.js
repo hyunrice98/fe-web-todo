@@ -3,9 +3,9 @@ import { pipe, addEvent } from "../helperFunction/common.js";
 class Card {
     constructor(title, main, author) {
         this.id = Math.floor(Math.random() * 1_000_000_000);
-        this.title = title
-        this.main = main
-        this.author = author
+        this.title = title;
+        this.main = main;
+        this.author = author;
     }
 
     getTemplate = () => `
@@ -18,7 +18,7 @@ class Card {
             <p class="card_main_text">${this.main}</p>
             <p class="card_author_text"> author by ${this.author} </p>
         </li>
-    `
+    `;
 }
 
 const getCardRegisterTemplate = () => pipe(
@@ -40,7 +40,7 @@ const getCardRegisterTemplate = () => pipe(
 
         return $cardRegisterForm;
     }
-)()
+)();
 
 const resizeCardInput = () => pipe(
     () => document.querySelector(".card_addition_text"),
