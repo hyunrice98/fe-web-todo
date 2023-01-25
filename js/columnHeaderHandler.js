@@ -1,7 +1,7 @@
-import {main} from './data/mainData.js'
-import { addEvent } from './helperFunction/common.js';
+import { main } from './data/mainData.js'
+import { addEvent, pipe } from './helperFunction/common.js';
 
-function setColumnDeleteButton() {
+function eventToColumnDeleteBtns() {
     const columnDeleteBtnArray = document.querySelectorAll(".column_delete_button");
 
     for(const $btn of columnDeleteBtnArray) {
@@ -15,7 +15,7 @@ function setColumnDeleteButton() {
     }
 }
 
-function setColumnAddButton() {
+function eventToColumnAddBtns() {
     const columnAddBtnArray = document.querySelectorAll(".column_add_button");
 
     for(const $btn of columnAddBtnArray) {
@@ -28,5 +28,10 @@ function setColumnAddButton() {
     }
 }
 
-export {setColumnDeleteButton, setColumnAddButton}
+const eventToColumnBtns = () => pipe(
+    eventToColumnDeleteBtns,
+    eventToColumnAddBtns,
+)()
+
+export { eventToColumnBtns }
 

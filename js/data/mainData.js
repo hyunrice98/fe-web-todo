@@ -1,7 +1,7 @@
 import {getNewColumnTemplate, Column} from './column.js'
 import {Card, getCardRegisterTemplate, resizeCardInput} from './card.js'
 import {setCardDeleteButton} from "../popupHandler.js";
-import {setColumnAddButton, setColumnDeleteButton} from "../columnHeaderHandler.js";
+import { eventToColumnBtns } from "../columnHeaderHandler.js";
 import {dragHandler} from "../dragHandler.js";
 import {addSidebarBlock} from "./sidebarData.js"
 import {deleteColumnData, patchMainData, postColumnData} from "../server/mainData.js";
@@ -47,8 +47,7 @@ class Main {
         setCardDeleteButton();
         this.setCardDeleteButtonHover();
         this.setCardEditButtonListener();
-        setColumnAddButton();
-        setColumnDeleteButton();
+        eventToColumnBtns();
         dragHandler();
     }
 

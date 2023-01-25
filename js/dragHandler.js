@@ -1,61 +1,73 @@
-import {main} from "./data/mainData.js";
-import {addSidebarBlock} from "./data/sidebarData.js";
-import {patchMainData} from "./server/mainData.js";
+import { main } from "./data/mainData.js";
+import { addSidebarBlock } from "./data/sidebarData.js";
+import { addEvent, pipe } from "./helperFunction/common.js";
+import { patchMainData } from "./server/mainData.js";
 
-function dragHandler() {
-    let dragged = null;
+let dragCard = null;
+HTMLCollection.prototype.forEach = Array.prototype.forEach;
 
-    // dragged object transparency injection
-    const cards = document.getElementsByClassName("card");
-    [...cards].forEach((card) => {
-        card.addEventListener("dragstart", (event) => {
-            dragged = event.target;
-            event.target.classList.add("dragging");
-        });
-        card.addEventListener("dragend", (event) => {
-            event.target.classList.remove("dragging");
-        });
-    });
+const dragEventToEveryCard = () => pipe(
+    ($cardArray) => {
+        $cardArray.forEach(($card) => {
+            addEvent($card, [
+                (event) => dragCard = event.target,
+                (event) => event.target.classList.add("dragging")
+            ], "dragstart");
 
-    // data transfer after drag
-    const target = document.getElementsByClassName("column");
-    [...target].forEach((column) => {
-        column.addEventListener("dragover", (event) => {
-            event.preventDefault();
-        });
-        column.addEventListener("drop", (event) => {
-            event.preventDefault();
-            if (event.target.className === "column") {
-                dragged.parentNode.removeChild(dragged);
-                event.target.appendChild(dragged);
-            } else return;
+            addEvent($card, [
+                (event) => event.target.classList.remove("dragging")
+            ], "dragend")
+        })
+    }
+)(document.querySelectorAll(".card"));
 
-            let tempColumnName;
-            let tempCard;
-            for (const column of main.columns) {
-                column.cards.forEach((card) => {
-                    if (card.title === dragged.id) {
-                        tempCard = card;
-                        tempColumnName = column.name;
-                        const index = column.cards.indexOf(card);
-                        column.cards.splice(index, 1);
-                    }
-                });
-            }
+const dragEventToEveryColumn = () => {
+    const columnArray = document.querySelectorAll(".column");
+    columnArray.forEach(($column) => {
+        addEvent($column, [
+            (event) => event.preventDefault()
+        ], "dragover")
 
-            const targetId = event.target.id;
-            main.columns.forEach((column) => {
-                if (column.name === targetId) {
+        addEvent($column, [
+            (event) => {
+                const targetId = event.target.id;
+                if(event.target.className !== "column") return;
+                const $currentColumn = dragCard.parentNode;
+                $currentColumn.removeChild(dragCard);
+                // dragCard.parentNode.removeChild(dragCard);
+                event.target.appendChild(dragCard);
+
+                let tempColumnName;
+                let tempCard;
+                for (const column of main.columns) {
+                    column.cards.forEach((card) => {
+                        if (card.title === dragCard.id) {
+                            tempCard = card;
+                            tempColumnName = column.name;
+                            const index = column.cards.indexOf(card);
+                            column.cards.splice(index, 1);
+                        }
+                    });
+                }
+                
+                for(const column of main.columns) {
+                    if(column.name !== targetId) continue;
                     column.cards.push(tempCard);
                     patchMainData();
                     addSidebarBlock("jaehyun cho",
-                        `<strong>${dragged.id}</strong>를 <strong>${tempColumnName}</strong>에서 <strong>${column.name}</strong>로 이동하였습니다.`
+                        `<strong>${dragCard.id}</strong>를 <strong>${tempColumnName}</strong>에서 <strong>${column.name}</strong>로 이동하였습니다.`
                     );
                 }
-            });
-            main.refreshNumberCircle();
-        });
-    });
+
+                main.refreshNumberCircle();
+            }
+        ], "drop");
+    })
+}
+
+function dragHandler() {
+    dragEventToEveryCard();
+    dragEventToEveryColumn();
 }
 
 export {dragHandler}
