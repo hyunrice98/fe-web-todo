@@ -1,11 +1,8 @@
 import {main} from "./data/mainData.js"
+import { addEvent, pipe } from "./helperFunction/common.js";
 
-function favHandler() {
-    const favButton = document.querySelector("#fav");
-
-    favButton.addEventListener("click", () => {
-        main.addColumn();
-    });
-}
+const favHandler = () => pipe(
+    ($favBtn) => addEvent($favBtn, [() => main.addColumn()])
+)(document.querySelector("#fav"));
 
 export {favHandler}
