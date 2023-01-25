@@ -31,6 +31,13 @@ const emptyColumnTemplate = () => `
     </ol>
 `
 
+const columnHeaderTemplate = (id) => `
+    <input type="text" class="column_header_text_input column_header_text" placeholder="섹션 제목을 입력하세요"
+    value="${id ?? ''}"
+    >
+    <span class="material-symbols-outlined column_confirm_button">check</span>
+`
+
 // card
 const cardTemplate = (cardTitle, cardContent, cardAuthor) => `
     <li class="card" id="${cardTitle}" draggable="true">
@@ -58,6 +65,25 @@ const cardRegisterFormTemplate = (title, text) => `
 `
 
 // sideBar
+const sideBarContentTemplate = (name, text, time, emotion="🥳") => `
+    <li class="sidebar_block">
+    <p class="sidebar_block_emoji">${emotion}</p>
+    <div class="sidebar_block_text_container">
+        <p class="sidebar_block_name">${name}</p>
+        <p class="sidebar_block_text">${text}</p>
+        <p class="sidebar_block_time">${time}</p>
+    </div>
+    </li>
+`
+
+const sideBarHeaderTemplate = () => `
+    <button type="button" id="sidebar_close_button">
+    <img src="Icon/icon_close.png" alt="menu">
+    </button>
+    <ol id="sidebar_blocks"></ol>
+`
+
+// sideBar Log
 const menuMoveTemplate = (cardID, prevColumName, nextColumnName) => `
     <strong>${cardID}</strong>를 
     <strong>${prevColumName}</strong>에서 
@@ -66,9 +92,19 @@ const menuMoveTemplate = (cardID, prevColumName, nextColumnName) => `
 
 const menuDeleteTemplate = (id) => `<strong>${id}</strong>를 삭제하였습니다.`;
 
+const menuUpdateTemplate = (columnName, cardTitle) => `<strong>${columnName}</strong>의 <strong>${cardTitle}</strong>를 수정하였습니다.`
+
+const menuAddTemplate = (columnName, cardTitle) => `<strong>${columnName}</strong>에 <strong>${cardTitle}</strong>를 등록하였습니다.`
+
+const menuDeleteColumnTemplate = (columnName) => `<strong>${columnName}</strong> 칼럼을 삭제하였습니다.`;
+
+const menuAddColumnTemplate = (columnName) => `<strong>${columnName}</strong> 칼럼을 등록하였습니다.`
+
 export { 
     cardDeletePopUpTemplate,
-    columnTemplate, emptyColumnTemplate,
+    columnTemplate, emptyColumnTemplate, columnHeaderTemplate,
     cardTemplate, cardRegisterFormTemplate,
-    menuMoveTemplate, menuDeleteTemplate
+    sideBarContentTemplate, sideBarHeaderTemplate,
+    menuMoveTemplate, menuDeleteTemplate, menuUpdateTemplate, menuAddTemplate, 
+    menuDeleteColumnTemplate, menuAddColumnTemplate
 }

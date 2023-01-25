@@ -1,6 +1,7 @@
 import { SidebarBlock } from "./sidebarBlock.js";
 import { eventToSideBarBtns } from "../sidebarHandler.js";
 import { pipe } from "../helper/commonFunction.js";
+import { sideBarHeaderTemplate } from "../template.js";
 
 class SidebarData {
     constructor(sidebarBlocks) {
@@ -9,18 +10,12 @@ class SidebarData {
 
     getTemplate = () => pipe(
         ($sideBar) => {
-            $sideBar.innerHTML = `
-                <button type="button" id="sidebar_close_button">
-                <img src="Icon/icon_close.png" alt="menu">
-                </button>
-                <ol id="sidebar_blocks"></ol>
-            `;
-
+            $sideBar.innerHTML = sideBarHeaderTemplate();
             return $sideBar.querySelector("ol#sidebar_blocks");
         },
         ($sideBarBlocks) => $sideBarBlocks.innerHTML 
             = this.sidebarBlocks.reduce(
-                (runningString, block) => runningString + block.getSidebarBlockHTML(), ''),
+                (runningString, block) => runningString + block.getSideBarTemplate(), ''),
         () => eventToSideBarBtns()
     )(document.querySelector("#sidebar"));
 }

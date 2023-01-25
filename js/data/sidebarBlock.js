@@ -1,3 +1,5 @@
+import { sideBarContentTemplate } from "../template.js";
+
 class SidebarBlock {
     constructor(name, text, time) {
         this.name = name;
@@ -5,16 +7,7 @@ class SidebarBlock {
         this.time = time;
     }
 
-    getSidebarBlockHTML = () => `
-        <li class="sidebar_block">
-            <p class="sidebar_block_emoji">🥳</p>
-            <div class="sidebar_block_text_container">
-                <p class="sidebar_block_name">${this.name}</p>
-                <p class="sidebar_block_text">${this.text}</p>
-                <p class="sidebar_block_time">${this.time}</p>
-            </div>
-        </li>
-    `;
+    getSideBarTemplate = () => sideBarContentTemplate(this.name. this.text, this.time);
 }
 
 export { SidebarBlock }

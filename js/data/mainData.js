@@ -6,8 +6,11 @@ import {dragHandler} from "../dragHandler.js";
 import {addSidebarBlock} from "./sidebarData.js"
 import {deleteColumnData, patchMainData, postColumnData} from "../server/mainData.js";
 import { addEvent, pipe } from '../helper/commonFunction.js';
+import { menuAddTemplate, menuDeleteColumnTemplate, menuUpdateTemplate, menuAddColumnTemplate, columnHeaderTemplate } from '../template.js';
 
 NodeList.prototype.forEach = Array.prototype.forEach;
+const $columnContent = document.querySelector("#column_holder");
+const columnHTMLHeaders = document.getElementsByClassName("number_circle");
 
 class Main {
     constructor(columns = []) {
@@ -30,7 +33,6 @@ class Main {
     }
 
     showMainHTML() {
-        const $columnContent = document.querySelector("#column_holder");
         $columnContent.innerHTML = this.columns
         .reduce((runningString, column) => runningString + column.getTemplate(), '');
 
@@ -49,12 +51,7 @@ class Main {
                 const originalColumnHeader = $columnHeaderText.parentElement;
                 const newColumnHeader = document.createElement("div");
                 newColumnHeader.className = "column_header";
-                newColumnHeader.innerHTML = `
-                    <input type="text" class="column_header_text_input column_header_text" placeholder="섹션 제목을 입력하세요"
-                     value="${originalColumnHeader.parentElement.id ?? ''}"
-                     >
-                    <span class="material-symbols-outlined column_confirm_button">check</span>
-                `;
+                newColumnHeader.innerHTML = columnHeaderTemplate(originalColumnHeader.parentElement.id);
 
                 originalColumnHeader.parentElement.replaceChild(newColumnHeader, originalColumnHeader);
 
@@ -69,7 +66,6 @@ class Main {
     }
 
     refreshNumberCircle() {
-        const columnHTMLHeaders = document.getElementsByClassName("number_circle");
         this.columns.forEach((column) => {
             for (const numberCircle of columnHTMLHeaders) {
                 if (numberCircle.id === column.name) {
@@ -129,13 +125,12 @@ class Main {
 
                         if (cardTitle !== '') {
                             this.replaceCardWithTitle(cardTitle, newCard);
-                            patchMainData();
-                            addSidebarBlock(`<strong>${column.name}</strong>의 <strong>${title}</strong>를 수정하였습니다.`);
+                            addSidebarBlock(menuUpdateTemplate(column.name, title));
                         } else {
                             column.cards.unshift(newCard);
-                            patchMainData();
-                            addSidebarBlock(`<strong>${column.name}</strong>에 <strong>${title}</strong>를 등록하였습니다.`);
+                            addSidebarBlock(menuAddTemplate(column.name, title));
                         }
+                        patchMainData();
                     }
                 });
 
@@ -151,7 +146,7 @@ class Main {
                 const columnID = main.columns[index].id;
                 deleteColumnData(columnID);
                 main.columns.splice(index, 1);
-                addSidebarBlock(`<strong>${column.name}</strong> 칼럼을 삭제하였습니다.`);
+                addSidebarBlock(menuDeleteColumnTemplate(column.name));
             }
         });
     }
@@ -169,7 +164,7 @@ class Main {
                 const newColumn = new Column(columnName, []);
                 this.columns.push(newColumn);
                 postColumnData(newColumn);
-                addSidebarBlock(`<strong>${columnName}</strong> 칼럼을 등록하였습니다.`);
+                addSidebarBlock(menuAddColumnTemplate(columnName));
                 this.showMainHTML();
             }
         ])
