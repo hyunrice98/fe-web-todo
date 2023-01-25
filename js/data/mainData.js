@@ -5,42 +5,34 @@ import { eventToColumnBtns } from "../columnHeaderHandler.js";
 import {dragHandler} from "../dragHandler.js";
 import {addSidebarBlock} from "./sidebarData.js"
 import {deleteColumnData, patchMainData, postColumnData} from "../server/mainData.js";
+import { addEvent, pipe } from '../helper/commonFunction.js';
+
+NodeList.prototype.forEach = Array.prototype.forEach;
 
 class Main {
     constructor(columns = []) {
         this.columns = columns
     }
 
-    replaceColumn(prevName, newName) {
-        for(const $column of this.columns) {
-            if($column.name === prevName) {
-                $column.name = newName;
-            }
-        }
-    }
+    replaceColumn = (prevName, newName) => 
+        this.columns
+        .filter((column) => column.name === prevName)
+        .forEach((column) => column.name = newName);
 
     replaceCardWithTitle(cardTitle, $newCard) {
         for(const $column of this.columns) {
             for(const [$card, index] of $column.cards.entries()) {
-                console.log($card, index);
                 if($card.title === cardTitle) {
                     $column.cards[index] = $newCard;
                 }
             }
         }
-
-        this.columns.forEach((column) => {
-            column.cards.forEach((card, index) => {
-                if (card.title === cardTitle) {
-                    column.cards[index] = $newCard;
-                }
-            });
-        });
     }
 
     showMainHTML() {
-        const main = document.querySelector("#column_holder");
-        main.innerHTML = this.columns.reduce((acc, column) => acc + column.getTemplate(), '');
+        const $columnContent = document.querySelector("#column_holder");
+        $columnContent.innerHTML = this.columns
+        .reduce((runningString, column) => runningString + column.getTemplate(), '');
 
         this.modifyColumnHeaderTextListener();
         eventToCardDeleteBtns();
@@ -51,11 +43,10 @@ class Main {
     }
 
     modifyColumnHeaderTextListener() {
-        const columnHeaderTexts = document.querySelectorAll(".column_header_text");
-
-        [...columnHeaderTexts].forEach((columnHeaderText) => {
-            columnHeaderText.addEventListener("dblclick", () => {
-                const originalColumnHeader = columnHeaderText.parentElement;
+        const $columnHeaderTexts = document.querySelectorAll(".column_header_text");
+        $columnHeaderTexts.forEach(($columnHeaderText) => {
+            $columnHeaderText.addEventListener("dblclick", () => {
+                const originalColumnHeader = $columnHeaderText.parentElement;
                 const newColumnHeader = document.createElement("div");
                 newColumnHeader.className = "column_header";
                 newColumnHeader.innerHTML = `
@@ -67,11 +58,12 @@ class Main {
 
                 originalColumnHeader.parentElement.replaceChild(newColumnHeader, originalColumnHeader);
 
-                document.querySelector(".column_confirm_button").addEventListener("click", () => {
-                    this.replaceColumn(newColumnHeader.parentElement.id, newColumnHeader.children[0].value);
-                    patchMainData();
-                    this.showMainHTML();
-                });
+                const $columnConfirmBtn = document.querySelector(".column_confirm_button");
+                addEvent($columnConfirmBtn, [
+                    () => this.replaceColumn(newColumnHeader.parentElement.id, newColumnHeader.children[0].value),
+                    () => patchMainData(),
+                    () => this.showMainHTML()
+                ]);
             });
         });
     }
@@ -100,11 +92,10 @@ class Main {
         this.showMainHTML();
     }
 
-    addCardHTML(columnId) {
-        const $column = document.getElementById(columnId);
-        const $columnMain = $column.querySelector(".column_main");
-        this.newAddCardHTML($columnMain);
-    }
+    addCardHTML = (columnID) => pipe(
+        ($column) => $column.querySelector(".column_main"),
+        ($columnMain) => this.newAddCardHTML($columnMain)
+    )(document.getElementById(columnID));
 
     newAddCardHTML(column) {
         column.prepend(getCardRegisterTemplate());
@@ -113,41 +104,44 @@ class Main {
         this.setCardAdditionConfirmListener();
     }
 
-    setCardAdditionCancelListener() {
-        const cardCancelButton = document.querySelector("#card_addition_cancel");
-        cardCancelButton.addEventListener("click", () => {
-            const column = cardCancelButton.closest(".column_main")
-            column.removeChild(column.firstChild);
-        });
-    }
+    setCardAdditionCancelListener = () => pipe(
+        ($cardCancelBtn) => addEvent($cardCancelBtn, [
+            () => {
+                const column = $cardCancelBtn.closest(".column_main")
+                column.removeChild(column.firstChild);
+            }
+        ])
+    )(document.querySelector("#card_addition_cancel"));
 
     setCardAdditionConfirmListener(cardTitle = '') {
-        const cardConfirmButton = document.querySelector("#card_addition_confirm");
-        cardConfirmButton.addEventListener("click", () => {
-            const title = document.getElementsByClassName("card_addition_title")[0].value;
-            const main = document.getElementsByClassName("card_addition_text")[0].value;
-            const author = "jaehyun cho";
+        const $cardConfirmBtn = document.querySelector("#card_addition_confirm");
+        addEvent($cardConfirmBtn, [
+            () => {
+                const title = document.getElementsByClassName("card_addition_title")[0].value;
+                const main = document.getElementsByClassName("card_addition_text")[0].value;
 
-            if (title === '' || main === '') {
-                return;
-            }
+                if (title === '' || main === '') return;
 
-            const column_id = cardConfirmButton.closest(".column").id;
-            this.columns.forEach((column) => {
-                if (column.name === column_id) {
-                    if (cardTitle !== '') {
-                        this.replaceCardWithTitle(cardTitle, new Card(title, main, author));
-                        patchMainData();
-                        addSidebarBlock(`<strong>${column.name}</strong>의 <strong>${title}</strong>를 수정하였습니다.`);
-                    } else {
-                        column.cards.unshift(new Card(title, main, author));
-                        patchMainData();
-                        addSidebarBlock(`<strong>${column.name}</strong>에 <strong>${title}</strong>를 등록하였습니다.`);
+                const columnID = $cardConfirmBtn.closest(".column").id;
+                this.columns.forEach((column) => {
+                    if (column.name === columnID) {
+                        const newCard = new Card(title, main, "jaehyun cho");
+
+                        if (cardTitle !== '') {
+                            this.replaceCardWithTitle(cardTitle, newCard);
+                            patchMainData();
+                            addSidebarBlock(`<strong>${column.name}</strong>의 <strong>${title}</strong>를 수정하였습니다.`);
+                        } else {
+                            column.cards.unshift(newCard);
+                            patchMainData();
+                            addSidebarBlock(`<strong>${column.name}</strong>에 <strong>${title}</strong>를 등록하였습니다.`);
+                        }
                     }
-                }
-            });
-            this.showMainHTML();
-        });
+                });
+
+                this.showMainHTML();
+            }
+        ]);
     }
 
     deleteColumn(columnId) {
@@ -162,65 +156,60 @@ class Main {
         });
     }
 
-    addColumn() {
-        const columnHolder = document.querySelector("#column_holder");
-        columnHolder.appendChild(getNewColumnTemplate());
-        this.addColumnConfirmController();
-    }
+    addColumn = () => pipe(
+        ($columnHolder) => $columnHolder.appendChild(getNewColumnTemplate()),
+        () => this.addColumnConfirmController()
+    )(document.querySelector("#column_holder"));
 
-    addColumnConfirmController() {
-        const columnConfirmButton = document.querySelector(".column_confirm_button");
-        columnConfirmButton.addEventListener("click", () => {
-            const columnName = columnConfirmButton.previousElementSibling.value;
-            if (columnName === '') return;
-            const newColumn = new Column(columnName, []);
-            this.columns.push(newColumn);
-            postColumnData(newColumn);
-            addSidebarBlock(`<strong>${columnName}</strong> 칼럼을 등록하였습니다.`);
-            this.showMainHTML();
-        });
-    }
+    addColumnConfirmController = () => pipe(
+        ($columnConfirmBtn) => addEvent($columnConfirmBtn, [
+            () => {
+                const columnName = $columnConfirmBtn.previousElementSibling.value;
+                if (columnName === '') return;
+                const newColumn = new Column(columnName, []);
+                this.columns.push(newColumn);
+                postColumnData(newColumn);
+                addSidebarBlock(`<strong>${columnName}</strong> 칼럼을 등록하였습니다.`);
+                this.showMainHTML();
+            }
+        ])
+    )(document.querySelector(".column_confirm_button"));
 
     setCardDeleteButtonHover() {
-        const deleteButtons = document.querySelectorAll(".card_delete_button");
-        deleteButtons.forEach((button) => {
-            const targetCard = button.closest(".card");
-            button.addEventListener("mouseover", () => {
-                targetCard.style.outline = "solid #FF4343";
-                targetCard.style.backgroundColor = "#FFEEEC";
-            });
-            button.addEventListener("mouseout", () => {
-                targetCard.style.outline = "none";
-                targetCard.style.backgroundColor = "#FFFFFF";
-            });
+        const $deleteBtns = document.querySelectorAll(".card_delete_button");
+        $deleteBtns.forEach(($btn) => {
+            const targetCard = $btn.closest(".card");
+
+            addEvent($btn, [
+                () => targetCard.style.outline = "solid #FF4343",
+                () => targetCard.style.backgroundColor = "#FFEEEC"
+            ], "mouseover");
+
+            addEvent($btn, [
+                () => targetCard.style.outline = "none",
+                () => targetCard.style.backgroundColor = "#FFFFFF"
+            ], "mouseout");
         });
     }
 
     setCardEditButtonListener() {
-        const modifyButtons = document.querySelectorAll(".card_edit_button");
-        modifyButtons.forEach((button) => {
-            button.addEventListener("click", () => {
-                const targetCard = button.closest(".card");
-                this.switchAddCardHTML(targetCard);
-            });
-            button.addEventListener("mouseover", () => {
-                button.style.color = "#0075DE";
-            });
-            button.addEventListener("mouseout", () => {
-                button.style.color = "#000000";
-            });
+        const $modifyBtns = document.querySelectorAll(".card_edit_button");
+        $modifyBtns.forEach(($btn) => {
+            addEvent($btn, [() => this.switchAddCardHTML($btn.closest(".card"))]);
+            addEvent($btn, [() => $btn.style.color = "#0075DE"], "mouseover");
+            addEvent($btn, [() => $btn.style.color = "#000000"], "mouseout");
         });
     }
 
     switchAddCardHTML(targetCard) {
-        const newCard = getCardRegisterTemplate(targetCard.id, targetCard.children[1].innerHTML);
+        const $cardAddCancelBtn = document.querySelector("#card_addition_cancel");
+        const cardTitle = targetCard.id;
+        const newCard = getCardRegisterTemplate(cardTitle, targetCard.children[1].innerHTML);
         targetCard.parentElement.replaceChild(newCard, targetCard);
         resizeCardInput();
-        const cardTitle = targetCard.id;
-        const cancelAddCardButton = document.querySelector("#card_addition_cancel");
-        cancelAddCardButton.addEventListener("click", () => {
-            cancelAddCardButton.closest(".column_main").replaceChild(targetCard, newCard);
-        });
+        addEvent($cardAddCancelBtn, [
+            () => $cardAddCancelBtn.closest(".column_main").replaceChild(targetCard, newCard)
+        ]);
         this.setCardAdditionConfirmListener(cardTitle);
     }
 }

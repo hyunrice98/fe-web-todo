@@ -1,5 +1,5 @@
-import {SidebarBlock} from "./sidebarBlock.js";
-import {eventToSideBarBtns } from "../sidebarHandler.js";
+import { SidebarBlock } from "./sidebarBlock.js";
+import { eventToSideBarBtns } from "../sidebarHandler.js";
 import { pipe } from "../helper/commonFunction.js";
 
 class SidebarData {
@@ -7,21 +7,22 @@ class SidebarData {
         this.sidebarBlocks = sidebarBlocks;
     }
 
-    async getTemplate() {
-        const sidebar = document.querySelector("#sidebar");
-        let html = `
-            <button type="button" id="sidebar_close_button">
+    getTemplate = () => pipe(
+        ($sideBar) => {
+            $sideBar.innerHTML = `
+                <button type="button" id="sidebar_close_button">
                 <img src="Icon/icon_close.png" alt="menu">
-            </button>
-            <ol id="sidebar_blocks">
-        `
+                </button>
+                <ol id="sidebar_blocks"></ol>
+            `;
 
-        html += this.sidebarBlocks.reduce((runningString, block) => runningString + block.getSidebarBlockHTML(), '');
-        html += '</ol>'
-
-        sidebar.innerHTML = html;
-        eventToSideBarBtns();
-    }
+            return $sideBar.querySelector("ol#sidebar_blocks");
+        },
+        ($sideBarBlocks) => $sideBarBlocks.innerHTML 
+            = this.sidebarBlocks.reduce(
+                (runningString, block) => runningString + block.getSidebarBlockHTML(), ''),
+        () => eventToSideBarBtns()
+    )(document.querySelector("#sidebar"));
 }
 
 const parsedDate = () => pipe(
