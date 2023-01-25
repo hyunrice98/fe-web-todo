@@ -1,6 +1,6 @@
 import {getNewColumnTemplate, Column} from './column.js'
 import {Card, getCardRegisterTemplate, resizeCardInput} from './card.js'
-import {setCardDeleteButton} from "../popupHandler.js";
+import { eventToCardDeleteBtns } from "../popupHandler.js";
 import { eventToColumnBtns } from "../columnHeaderHandler.js";
 import {dragHandler} from "../dragHandler.js";
 import {addSidebarBlock} from "./sidebarData.js"
@@ -43,7 +43,7 @@ class Main {
         main.innerHTML = this.columns.reduce((acc, column) => acc + column.getTemplate(), '');
 
         this.modifyColumnHeaderTextListener();
-        setCardDeleteButton();
+        eventToCardDeleteBtns();
         this.setCardDeleteButtonHover();
         this.setCardEditButtonListener();
         eventToColumnBtns();
