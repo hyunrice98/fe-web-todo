@@ -1,5 +1,5 @@
 import {getAddColumnHTML, Column} from './column.js'
-import {Card, getAddCardHTML, resizeTextarea} from './card.js'
+import {Card, getCardRegisterTemplate, resizeCardInput} from './card.js'
 import {setCardDeleteButton} from "../popupHandler.js";
 import {setColumnAddButton, setColumnDeleteButton} from "../columnHeaderHandler.js";
 import {dragHandler} from "../dragHandler.js";
@@ -98,8 +98,8 @@ class Main {
     }
 
     newAddCardHTML(column) {
-        column.prepend(getAddCardHTML());
-        resizeTextarea();
+        column.prepend(getCardRegisterTemplate());
+        resizeCardInput();
         this.setCardAdditionCancelListener();
         this.setCardAdditionConfirmListener();
     }
@@ -212,9 +212,9 @@ class Main {
     }
 
     switchAddCardHTML(targetCard) {
-        const newCard = getAddCardHTML(targetCard.id, targetCard.children[1].innerHTML);
+        const newCard = getCardRegisterTemplate(targetCard.id, targetCard.children[1].innerHTML);
         targetCard.parentElement.replaceChild(newCard, targetCard);
-        resizeTextarea();
+        resizeCardInput();
         const cardTitle = targetCard.id;
         const cancelAddCardButton = document.querySelector("#card_addition_cancel");
         cancelAddCardButton.addEventListener("click", () => {

@@ -10,7 +10,7 @@ class Column {
     }
 
     getColumnHTML() {
-        const cardsHTML = this.cards.reduce((acc, card) => acc + card.getCardHTML(), '');
+        const cardsHTML = this.cards.reduce((acc, card) => acc + card.getTemplate(), '');
 
         return `
             <li class="column" id="${this.name}">

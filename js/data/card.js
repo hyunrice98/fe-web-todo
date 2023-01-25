@@ -1,51 +1,61 @@
+import { pipe, addEvent } from "../helperFunction/common.js";
+
 class Card {
     constructor(title, main, author) {
-        this.id = Math.floor(Math.random() * 1000000000);
+        this.id = Math.floor(Math.random() * 1_000_000_000);
         this.title = title
         this.main = main
         this.author = author
     }
 
-    getCardHTML() {
-        return `
-            <li class="card" id="${this.title}" draggable="true">
-                <div class="card_title" id="${this.title}">
-                    <p class="card_title_text">${this.title}</p>
-                    <span class="material-symbols-outlined card_delete_button">close</span>
-                    <span class="material-symbols-outlined card_edit_button">edit</span>
-                </div>
-                <p class="card_main_text">${this.main}</p>
-                <p class="card_author_text"> author by ${this.author} </p>
-            </li>
-        `;
-    }
-}
-
-function getAddCardHTML(title, text) {
-    const li = document.createElement("li");
-    li.classList.add("card", "card_addition");
-    li.innerHTML = `
-        <label>
-            <input class="card_title_text card_addition_title" placeholder="제목을 입력하세요" type="text" value="${title ?? ''}">
-        </label>
-        <label>
-            <textarea class="card_main_text card_addition_text" placeholder="내용을 입력하세요" rows="1">${text ?? ''}</textarea>
-        </label>
-        <div class="button_container">
-            <button class="grey_button" id="card_addition_cancel">취소</button>
-            <button class="blue_button" id="card_addition_confirm">등록</button>
-        </div>
+    getTemplate = () => `
+        <li class="card" id="${this.title}" draggable="true">
+            <div class="card_title" id="${this.title}">
+                <p class="card_title_text">${this.title}</p>
+                <span class="material-symbols-outlined card_delete_button">close</span>
+                <span class="material-symbols-outlined card_edit_button">edit</span>
+            </div>
+            <p class="card_main_text">${this.main}</p>
+            <p class="card_author_text"> author by ${this.author} </p>
+        </li>
     `
-    return li;
 }
 
-function resizeTextarea() {
-    let cardAdditionText = document.querySelector(".card_addition_text");
-    cardAdditionText.style.height = cardAdditionText.scrollHeight + "px";
-    cardAdditionText.oninput = function () {
-        cardAdditionText.style.height = "";
-        cardAdditionText.style.height = cardAdditionText.scrollHeight + "px";
+const getCardRegisterTemplate = () => pipe(
+    () => document.createElement("li"),
+    ($cardRegisterForm) => {
+        $cardRegisterForm.classList.add("card", "card_addtion");
+        $cardRegisterForm.innerHTML = `
+            <label>
+                <input class="card_title_text card_addition_title" placeholder="제목을 입력하세요" type="text" value="${title ?? ''}">
+            </label>
+            <label>
+                <textarea class="card_main_text card_addition_text" placeholder="내용을 입력하세요" rows="1">${text ?? ''}</textarea>
+            </label>
+            <div class="button_container">
+                <button class="grey_button" id="card_addition_cancel">취소</button>
+                <button class="blue_button" id="card_addition_confirm">등록</button>
+            </div>
+            `
+
+        return $cardRegisterForm;
     }
-}
+)()
 
-export {Card, getAddCardHTML, resizeTextarea}
+const resizeCardInput = () => pipe(
+    () => document.querySelector(".card_addition_text"),
+    ($cardInput) => {
+        $cardInput.style.height = $cardInput.scrollHeight + "px";
+        return $cardInput;
+    },
+    () => {
+        addEvent($cardInput, [
+            () => {
+                $cardInput.style.height = "";
+                $cardInput.style.height = $cardInput.scrollHeight + "px";
+            }
+        ], "input")
+    }
+)();
+
+export {Card, getCardRegisterTemplate, resizeCardInput}
