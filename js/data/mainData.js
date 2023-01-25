@@ -224,6 +224,6 @@ class Main {
     }
 }
 
-let data = new Main();
+const main = new Main();
 
-export {data, Main}
+export {main}

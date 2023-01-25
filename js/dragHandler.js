@@ -1,4 +1,4 @@
-import {data} from "./data/mainData.js";
+import {main} from "./data/mainData.js";
 import {addSidebarBlock} from "./data/sidebarData.js";
 import {patchMainData} from "./server/mainData.js";
 
@@ -32,7 +32,7 @@ function dragHandler() {
 
             let tempColumnName;
             let tempCard;
-            for (const column of data.columns) {
+            for (const column of main.columns) {
                 column.cards.forEach((card) => {
                     if (card.title === dragged.id) {
                         tempCard = card;
@@ -44,7 +44,7 @@ function dragHandler() {
             }
 
             const targetId = event.target.id;
-            data.columns.forEach((column) => {
+            main.columns.forEach((column) => {
                 if (column.name === targetId) {
                     column.cards.push(tempCard);
                     patchMainData();
@@ -53,7 +53,7 @@ function dragHandler() {
                     );
                 }
             });
-            data.refreshNumberCircle();
+            main.refreshNumberCircle();
         });
     });
 }

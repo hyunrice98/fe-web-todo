@@ -1,4 +1,4 @@
-import {data} from "../data/mainData.js";
+import {main} from "../data/mainData.js";
 import {Column} from "../data/column.js";
 import {Card} from "../data/card.js";
 
@@ -15,7 +15,7 @@ async function getMainData() {
 
 function parseMainData(mainJSON) {
     mainJSON.forEach((columnJSON) => {
-        data.columns.push(parseColumnData(columnJSON));
+        main.columns.push(parseColumnData(columnJSON));
     });
 }
 
@@ -35,7 +35,7 @@ function parseColumnData(columnJSON) {
 }
 
 async function patchMainData() {
-    for (const column of data.columns) {
+    for (const column of main.columns) {
         await fetch(HOST + "/data/" + column.id, {
             method: 'PATCH',
             headers: {'Content-Type': 'application/json'},

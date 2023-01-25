@@ -1,4 +1,4 @@
-import {data} from './data/mainData.js'
+import {main} from './data/mainData.js'
 
 function setColumnDeleteButton() {
     const columnDeleteButtons = document.querySelectorAll(".column_delete_button");
@@ -6,8 +6,8 @@ function setColumnDeleteButton() {
     for (const i of columnDeleteButtons) {
         const columnID = i.closest(".column").id;
         i.addEventListener("click", () => {
-            data.deleteColumn(columnID);
-            data.showMainHTML();
+            main.deleteColumn(columnID);
+            main.showMainHTML();
         });
     }
 }
