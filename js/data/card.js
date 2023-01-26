@@ -1,4 +1,4 @@
-import { pipe, addEvent } from "../helper/commonFunction.js";
+import { pipe, addEvent, changeCSS } from "../helper/commonFunction.js";
 import { ID_DIVISTION_NUMBER } from "../helper/commonVariable.js"
 import { cardTemplate, cardRegisterFormTemplate } from "../template.js";
 
@@ -24,11 +24,11 @@ const getCardRegisterNode = (title, text) => pipe(
 
 const resizeCardInput = () => pipe(
     ($cardInput) => {
-        $cardInput.style.height = $cardInput.scrollHeight + "px";
-        addEvent($cardInput, [() => {
-            $cardInput.style.height = "";
-            $cardInput.style.height = $cardInput.scrollHeight + "px";
-        }], "input")
+        changeCSS($cardInput, "height", $cardInput.scrollHeight + "px");
+        addEvent($cardInput, [
+            () => changeCSS($cardInput, "height", ""),
+            () => changeCSS($cardInput, "height", $cardInput.scrollHeight + "px")
+        ], "input")
     }
 )(document.querySelector(".card_addition_text"));
 

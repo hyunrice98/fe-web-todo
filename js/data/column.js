@@ -43,7 +43,7 @@ const doubleClickeEventToColumnHeader = ($columnHeader) => addEvent($columnHeade
     () => {
         const $prevHeader = $columnHeader.parentElement;
         const $nextHeader = document.createElement("div");
-        $nextHeader.className = "column_header";
+        $nextHeader.classList.add("column_header");
         $nextHeader.innerHTML = columnHeaderTemplate($prevHeader.parentElement.id);
 
         $prevHeader.parentElement.replaceChild($nextHeader, $prevHeader);

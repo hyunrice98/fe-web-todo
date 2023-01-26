@@ -1,4 +1,4 @@
-import { addEvent, pipe } from "../helper/commonFunction.js";
+import { addEvent, changeCSS, pipe } from "../helper/commonFunction.js";
 import { patchMainData, postColumnData } from "../server/mainData.js";
 import { main } from "./mainData.js";
 import { menuAddColumnTemplate } from "../template.js";
@@ -10,13 +10,13 @@ const hoverEventToCardDeleteBtn = () => pipe(
         const targetCard = $btn.closest(".card");
 
         addEvent($btn, [
-            () => targetCard.style.outline = "solid #FF4343",
-            () => targetCard.style.backgroundColor = "#FFEEEC"
+            () => changeCSS(targetCard, "outline", "solid #FF4343"),
+            () => changeCSS(targetCard, "backgroundColor", "#FFEEEC")
         ], "mouseover");
 
         addEvent($btn, [
-            () => targetCard.style.outline = "none",
-            () => targetCard.style.backgroundColor = "#FFFFFF"
+            () => changeCSS(targetCard, "outline", "none"),
+            () => changeCSS(targetCard, "backgroundColor", "#fff")
         ], "mouseout");
     })
 )(document.querySelectorAll(".card_delete_button"));
@@ -59,15 +59,15 @@ const eventToCardAdditionConfirmBtn = () => pipe(
 const eventToCardEditBtn = () => pipe(
     ($modifyBtns) => $modifyBtns.forEach(($btn) => {
         addEvent($btn, [() => main.switchAddCardHTML($btn.closest(".card"))]);
-        addEvent($btn, [() => $btn.style.color = "#0075DE"], "mouseover");
-        addEvent($btn, [() => $btn.style.color = "#000000"], "mouseout");
+        addEvent($btn, [() => changeCSS($btn, "color", "#0075DE")], "mouseover");
+        addEvent($btn, [() => changeCSS($btn, "color", "#000")], "mouseout");
     })
 )(document.querySelectorAll(".card_edit_button"));
 
 const eventToCardAdditonCancelBtn = () => pipe(
     ($cardCancelBtn) => addEvent($cardCancelBtn, [() => {
-            const column = $cardCancelBtn.closest(".column_main")
-            column.removeChild(column.firstChild);
+        const column = $cardCancelBtn.closest(".column_main")
+        column.removeChild(column.firstChild);
     }])
 )(document.querySelector("#card_addition_cancel"));
 

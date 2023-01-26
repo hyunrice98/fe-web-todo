@@ -10,4 +10,6 @@ const pipe = (...functionArray) => (firstParam) => {
     }, firstParam);
 }
 
-export { addEvent, pipe }
+const changeCSS = ($target, key, value) => $target.style[key] = value;
+
+export { addEvent, pipe, changeCSS }
