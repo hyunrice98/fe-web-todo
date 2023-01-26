@@ -14,29 +14,23 @@ class Card {
 }
 
 const getCardRegisterNode = (title, text) => pipe(
-    () => document.createElement("li"),
     ($cardRegisterForm) => {
         $cardRegisterForm.classList.add("card", "card_addtion");
         $cardRegisterForm.innerHTML = cardRegisterFormTemplate(title, text);
 
         return $cardRegisterForm;
     }
-)();
+)(document.createElement("li"));
 
 const resizeCardInput = () => pipe(
-    () => document.querySelector(".card_addition_text"),
     ($cardInput) => {
         $cardInput.style.height = $cardInput.scrollHeight + "px";
-        return $cardInput;
-    },
-    ($cardInput) => {
-        addEvent($cardInput, [
-            () => {
+        addEvent($cardInput, [() => {
                 $cardInput.style.height = "";
                 $cardInput.style.height = $cardInput.scrollHeight + "px";
             }
         ], "input")
     }
-)();
+)(document.querySelector(".card_addition_text"));
 
 export {Card, getCardRegisterNode, resizeCardInput}
