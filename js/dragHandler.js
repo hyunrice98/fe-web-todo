@@ -1,7 +1,7 @@
 import { main } from "./data/mainData.js";
+import { patchMainData } from "./server/mainData.js";
 import { addSidebarBlock } from "./data/sidebarData.js";
 import { addEvent, pipe } from "./helper/commonFunction.js";
-import { patchMainData } from "./server/mainData.js";
 import { menuMoveTemplate } from "./template.js";
 
 let $dragCard = null;
@@ -30,8 +30,8 @@ const dragOverEventToColumn = ($column) => addEvent($column,
     [(event) => event.preventDefault()], "dragover");
 
 const dropEventToColumn = ($column) => addEvent($column, [
-    () => { if(target.className !== "column") return;},
-    () => {
+    ({target}) => { if(target.className !== "column") return;},
+    ({target}) => {
         $dragCard.remove();
         target.appendChild($dragCard);
     },

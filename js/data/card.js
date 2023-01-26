@@ -9,7 +9,7 @@ class Card {
         this.main = main;
         this.author = author;
     }
-
+    
     getTemplate = () => cardTemplate(this.title, this.main, this.author);
 }
 
@@ -26,10 +26,9 @@ const resizeCardInput = () => pipe(
     ($cardInput) => {
         $cardInput.style.height = $cardInput.scrollHeight + "px";
         addEvent($cardInput, [() => {
-                $cardInput.style.height = "";
-                $cardInput.style.height = $cardInput.scrollHeight + "px";
-            }
-        ], "input")
+            $cardInput.style.height = "";
+            $cardInput.style.height = $cardInput.scrollHeight + "px";
+        }], "input")
     }
 )(document.querySelector(".card_addition_text"));
 

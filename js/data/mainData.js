@@ -1,14 +1,12 @@
-import {Column, createCardRegisterForm, eventToColumnHeader} from './column.js'
-import {Card, getCardRegisterNode, resizeCardInput} from './card.js'
+import { createCardRegisterForm, eventToColumnHeader } from './column.js'
+import { getCardRegisterNode, resizeCardInput } from './card.js'
 import { eventToCardDeleteBtns } from "../popupHandler.js";
 import { eventToColumnBtns } from "../columnHeaderHandler.js";
-import {dragHandler} from "../dragHandler.js";
-import {addSidebarBlock} from "./sidebarData.js"
-import {deleteColumnData, patchMainData, postColumnData} from "../server/mainData.js";
+import { dragHandler } from "../dragHandler.js";
+import { addSidebarBlock } from "./sidebarData.js"
+import { deleteColumnData, patchMainData } from "../server/mainData.js";
 import { addEvent, pipe } from '../helper/commonFunction.js';
-import { 
-    menuAddTemplate, menuDeleteColumnTemplate, menuUpdateTemplate, menuAddColumnTemplate 
-} from '../template.js';
+import { menuDeleteColumnTemplate } from '../template.js';
 import { eventToCardEditBtn, hoverEventToCardDeleteBtn } from './button.js';
 
 NodeList.prototype.forEach = Array.prototype.forEach;
@@ -19,8 +17,7 @@ class Main {
         this.columns = columns
     }
 
-    replaceColumn = (prevName, newName) => 
-        this.columns
+    replaceColumn = (prevName, newName) => this.columns
         .filter((column) => column.name === prevName)
         .forEach((column) => column.name = newName);
 

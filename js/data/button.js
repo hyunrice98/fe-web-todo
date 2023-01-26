@@ -1,10 +1,11 @@
 import { addEvent, pipe } from "../helper/commonFunction.js";
-import { main, postColumnData } from "../server/mainData.js";
+import { patchMainData, postColumnData } from "../server/mainData.js";
+import { main } from "./mainData.js";
 import { menuAddColumnTemplate } from "../template.js";
 import { Column } from "./column.js";
 import { addSidebarBlock } from "./sidebarData.js";
 
-hoverEventToCardDeleteBtn = () => pipe(
+const hoverEventToCardDeleteBtn = () => pipe(
     ($deleteBtns) => $deleteBtns.forEach(($btn) => {
         const targetCard = $btn.closest(".card");
 
@@ -20,7 +21,13 @@ hoverEventToCardDeleteBtn = () => pipe(
     })
 )(document.querySelectorAll(".card_delete_button"));
 
-eventToCardAdditionConfirmBtn = () => pipe(
+const eventToColumnModifyBtn = ($columnConfirmBtn, $nextHeader) => addEvent($columnConfirmBtn, [
+    () => main.replaceColumn($nextHeader.parentElement.id, $nextHeader.children[0].value),
+    () => patchMainData(),
+    () => main.showMainHTML()
+])
+
+const eventToCardAdditionConfirmBtn = () => pipe(
     ($confirmBtn) => addEvent($confirmBtn, [
         () => {
             const title = document.getElementsByClassName("card_addition_title")[0].value;
@@ -49,7 +56,7 @@ eventToCardAdditionConfirmBtn = () => pipe(
     ])
 )(document.querySelector("#card_addition_confirm"));
 
-eventToCardEditBtn = () => pipe(
+const eventToCardEditBtn = () => pipe(
     ($modifyBtns) => $modifyBtns.forEach(($btn) => {
         addEvent($btn, [() => main.switchAddCardHTML($btn.closest(".card"))]);
         addEvent($btn, [() => $btn.style.color = "#0075DE"], "mouseover");
@@ -57,14 +64,14 @@ eventToCardEditBtn = () => pipe(
     })
 )(document.querySelectorAll(".card_edit_button"));
 
-eventToCardAdditonCancelBtn = () => pipe(
+const eventToCardAdditonCancelBtn = () => pipe(
     ($cardCancelBtn) => addEvent($cardCancelBtn, [() => {
             const column = $cardCancelBtn.closest(".column_main")
             column.removeChild(column.firstChild);
     }])
 )(document.querySelector("#card_addition_cancel"));
 
-eventToColumnConfirmBtn = () => pipe(
+const eventToColumnConfirmBtn = () => pipe(
     ($columnConfirmBtn) => addEvent($columnConfirmBtn, [
         () => {
             const columnName = $columnConfirmBtn.previousElementSibling.value;
@@ -80,5 +87,5 @@ eventToColumnConfirmBtn = () => pipe(
 
 export { 
     hoverEventToCardDeleteBtn, eventToCardAdditionConfirmBtn, eventToCardEditBtn, eventToCardAdditonCancelBtn,
-    eventToColumnConfirmBtn
+    eventToColumnConfirmBtn, eventToColumnModifyBtn
 }

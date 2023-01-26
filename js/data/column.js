@@ -1,10 +1,8 @@
 import { addEvent, pipe } from "../helper/commonFunction.js";
 import { ID_DIVISTION_NUMBER } from "../helper/commonVariable.js";
-import { patchMainData } from "../server/mainData.js";
 import { columnHeaderTemplate, columnTemplate, emptyColumnTemplate } from "../template.js";
-import { eventToCardAdditionConfirmBtn, eventToCardAdditonCancelBtn } from "./button.js";
+import { eventToCardAdditionConfirmBtn, eventToCardAdditonCancelBtn, eventToColumnModifyBtn } from "./button.js";
 import { getCardRegisterNode, resizeCardInput } from "./card.js";
-import { main } from "./mainData.js";
 
 class Column {
     id;
@@ -54,12 +52,6 @@ const doubleClickeEventToColumnHeader = ($columnHeader) => addEvent($columnHeade
         eventToColumnModifyBtn($columnConfirmBtn, $nextHeader);
     }
 ], "dblclick");
-
-const eventToColumnModifyBtn = ($columnConfirmBtn, $nextHeader) => addEvent($columnConfirmBtn, [
-    () => main.replaceColumn($nextHeader.parentElement.id, $nextHeader.children[0].value),
-    () => patchMainData(),
-    () => main.showMainHTML()
-])
 
 const eventToColumnHeader = () => pipe(
     ($columnHeaders) => 
