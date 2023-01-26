@@ -54,8 +54,7 @@ async function postColumnData(column) {
     });
 }
 
-async function deleteColumnData(columnID) {
+const deleteColumnData = async (columnID) => 
     await fetch(HOST + '/data/' + columnID, {method: METHOD.DELETE});
-}
 
 export {getMainData, patchMainData, postColumnData, deleteColumnData}

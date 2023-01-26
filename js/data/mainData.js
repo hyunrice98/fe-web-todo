@@ -1,4 +1,4 @@
-import {getNewColumnTemplate, Column} from './column.js'
+import {Column, createCardRegisterForm, eventToColumnHeader} from './column.js'
 import {Card, getCardRegisterNode, resizeCardInput} from './card.js'
 import { eventToCardDeleteBtns } from "../popupHandler.js";
 import { eventToColumnBtns } from "../columnHeaderHandler.js";
@@ -6,11 +6,12 @@ import {dragHandler} from "../dragHandler.js";
 import {addSidebarBlock} from "./sidebarData.js"
 import {deleteColumnData, patchMainData, postColumnData} from "../server/mainData.js";
 import { addEvent, pipe } from '../helper/commonFunction.js';
-import { menuAddTemplate, menuDeleteColumnTemplate, menuUpdateTemplate, menuAddColumnTemplate, columnHeaderTemplate } from '../template.js';
+import { 
+    menuAddTemplate, menuDeleteColumnTemplate, menuUpdateTemplate, menuAddColumnTemplate 
+} from '../template.js';
 
 NodeList.prototype.forEach = Array.prototype.forEach;
 const $columnContent = document.querySelector("#column_holder");
-const columnHTMLHeaders = document.getElementsByClassName("number_circle");
 
 class Main {
     constructor(columns = []) {
@@ -35,8 +36,7 @@ class Main {
     showMainHTML() {
         $columnContent.innerHTML = this.columns
         .reduce((runningString, column) => runningString + column.getTemplate(), '');
-
-        this.modifyColumnHeaderTextListener();
+        eventToColumnHeader();
         eventToCardDeleteBtns();
         this.hoverEventToCardDeleteBtn();
         this.eventToCardEditBtn();
@@ -44,74 +44,39 @@ class Main {
         dragHandler();
     }
 
-    modifyColumnHeaderTextListener() {
-        const $columnHeaderTexts = document.querySelectorAll(".column_header_text");
-        $columnHeaderTexts.forEach(($columnHeaderText) => {
-            $columnHeaderText.addEventListener("dblclick", () => {
-                const originalColumnHeader = $columnHeaderText.parentElement;
-                const newColumnHeader = document.createElement("div");
-                newColumnHeader.className = "column_header";
-                newColumnHeader.innerHTML = columnHeaderTemplate(originalColumnHeader.parentElement.id);
+    updateColumnLength = () => this.columns.forEach((column) => {
+        const $column = document.getElementById(`${column.name}`);
+        const $numberCircle = $column.getElementsByClassName("number_circle")[0];
+        $numberCircle.innerHTML = column.cards.length;
+    });
 
-                originalColumnHeader.parentElement.replaceChild(newColumnHeader, originalColumnHeader);
-
-                const $columnConfirmBtn = document.querySelector(".column_confirm_button");
-                addEvent($columnConfirmBtn, [
-                    () => this.replaceColumn(newColumnHeader.parentElement.id, newColumnHeader.children[0].value),
-                    () => patchMainData(),
-                    () => this.showMainHTML()
-                ]);
-            });
-        });
-    }
-
-    refreshNumberCircle() {
+    deleteCard(cardID) {
         this.columns.forEach((column) => {
-            for (const numberCircle of columnHTMLHeaders) {
-                if (numberCircle.id === column.name) {
-                    numberCircle.innerHTML = column.cards.length;
-                }
-            }
-        });
-    }
-
-    deleteCard(cardId) {
-        this.columns.forEach((column) => {
-            column.cards.forEach((card) => {
-                if (card.title === cardId) {
-                    const index = column.cards.indexOf(card);
+            column.cards.forEach((card, index) => {
+                if (card.title === cardID) 
                     column.cards.splice(index, 1);
-                    patchMainData();
-                }
             });
         });
+        patchMainData();
         this.showMainHTML();
     }
 
     addCardHTML = (columnID) => pipe(
         ($column) => $column.querySelector(".column_main"),
-        ($columnMain) => this.newAddCardHTML($columnMain)
+        ($columnMain) => createCardRegisterForm($columnMain)
     )(document.getElementById(columnID));
 
-    newAddCardHTML(column) {
-        column.prepend(getCardRegisterNode());
-        resizeCardInput();
-        this.setCardAdditionCancelListener();
-        this.setCardAdditionConfirmListener();
-    }
-
-    setCardAdditionCancelListener = () => pipe(
-        ($cardCancelBtn) => addEvent($cardCancelBtn, [
-            () => {
+    eventToCardAdditonCancelBtn = () => pipe(
+        ($cardCancelBtn) => 
+            addEvent($cardCancelBtn, [() => {
                 const column = $cardCancelBtn.closest(".column_main")
                 column.removeChild(column.firstChild);
             }
         ])
     )(document.querySelector("#card_addition_cancel"));
 
-    setCardAdditionConfirmListener(cardTitle = '') {
-        const $cardConfirmBtn = document.querySelector("#card_addition_confirm");
-        addEvent($cardConfirmBtn, [
+    eventToCardAdditionConfirmBtn = () => pipe(
+        ($confirmBtn) => addEvent($confirmBtn, [
             () => {
                 const title = document.getElementsByClassName("card_addition_title")[0].value;
                 const main = document.getElementsByClassName("card_addition_text")[0].value;
@@ -136,25 +101,23 @@ class Main {
 
                 this.showMainHTML();
             }
-        ]);
-    }
+        ])
+    )(document.querySelector("#card_addition_confirm"));
 
-    deleteColumn(columnId) {
-        this.columns.forEach((column) => {
-            if (column.name === columnId) {
-                const index = main.columns.indexOf(column);
-                const columnID = main.columns[index].id;
-                deleteColumnData(columnID);
-                main.columns.splice(index, 1);
-                addSidebarBlock(menuDeleteColumnTemplate(column.name));
-            }
-        });
-    }
+    deleteColumn = (columnID) => pipe(
+        () => this.columns.find((column) => column.name == columnID),
+        (column) => {
+            addSidebarBlock(menuDeleteColumnTemplate(column.name));
+            return main.columns.indexOf(column);
+        },
+        (index) => {
+            const columnID = main.columns[index].id;
+            main.columns.splice(index, 1);
 
-    addColumn = () => pipe(
-        ($columnHolder) => $columnHolder.appendChild(getNewColumnTemplate()),
-        () => this.addColumnConfirmController()
-    )(document.querySelector("#column_holder"));
+            return columnID;
+        },
+        (columnId) => deleteColumnData(columnId)
+    )();
 
     addColumnConfirmController = () => pipe(
         ($columnConfirmBtn) => addEvent($columnConfirmBtn, [
@@ -202,10 +165,10 @@ class Main {
             return $newCard.querySelector("#card_addition_cancel");
         },
         ($cancelBtn) => 
-            addEvent($cancelBtn, [
-            () => $cardAddCancelBtn.closest(".column_main").replaceChild(targetCard, newCard)]),
+            addEvent($cancelBtn, [() => 
+                $cardAddCancelBtn.closest(".column_main").replaceChild(targetCard, newCard)]),
         () => {
-            this.setCardAdditionConfirmListener(cardTitle);
+            this.eventToCardAdditionConfirmBtn(cardTitle);
             resizeCardInput();
         }
     )(getCardRegisterNode(targetCard.id, targetCard.querySelector(".card_main_text").innerHTML));

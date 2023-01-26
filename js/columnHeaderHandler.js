@@ -1,10 +1,8 @@
 import { main } from './data/mainData.js'
 import { addEvent, pipe } from './helper/commonFunction.js';
 
-function eventToColumnDeleteBtns() {
-    const columnDeleteBtnArray = document.querySelectorAll(".column_delete_button");
-
-    for(const $btn of columnDeleteBtnArray) {
+const eventToColumnDeleteBtns = pipe(
+    ($btnArray) => $btnArray.forEach(($btn) => {
         const $column = $btn.closest(".column");
         const columnID = $column.id;
 
@@ -12,21 +10,16 @@ function eventToColumnDeleteBtns() {
             () => main.deleteColumn(columnID),
             () => main.showMainHTML()
         ])
-    }
-}
+    })
+)(document.querySelectorAll(".column_delete_button"));
 
-function eventToColumnAddBtns() {
-    const columnAddBtnArray = document.querySelectorAll(".column_add_button");
-
-    for(const $btn of columnAddBtnArray) {
+const eventToColumnAddBtns = () => pipe(
+    ($btnArray) => $btnArray.forEach(($btn) => {
         const $column = $btn.closest(".column");
         const columnID = $column.id;
-
-        addEvent($btn, [
-            () => main.addCardHTML(columnID)
-        ])
-    }
-}
+        addEvent($btn, [() => main.addCardHTML(columnID)]);
+    })
+)(document.querySelectorAll(".column_add_button"));
 
 const eventToColumnBtns = () => pipe(
     eventToColumnDeleteBtns,
