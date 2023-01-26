@@ -1,7 +1,7 @@
 import { main } from './data/mainData.js'
 import { addEvent, pipe } from './helper/commonFunction.js';
 
-const eventToColumnDeleteBtns = pipe(
+const eventToColumnDeleteBtns = () => pipe(
     ($btnArray) => $btnArray.forEach(($btn) => {
         const $column = $btn.closest(".column");
         const columnID = $column.id;

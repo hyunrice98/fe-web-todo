@@ -2,6 +2,7 @@ import { addEvent, pipe } from "../helper/commonFunction.js";
 import { ID_DIVISTION_NUMBER } from "../helper/commonVariable.js";
 import { patchMainData } from "../server/mainData.js";
 import { columnHeaderTemplate, columnTemplate, emptyColumnTemplate } from "../template.js";
+import { eventToCardAdditionConfirmBtn, eventToCardAdditonCancelBtn } from "./button.js";
 import { getCardRegisterNode, resizeCardInput } from "./card.js";
 import { main } from "./mainData.js";
 
@@ -35,8 +36,8 @@ const getNewColumnTemplate = () => pipe(
 
 const createCardRegisterForm = ($column) => pipe(
     () => $column.prepend(getCardRegisterNode()),
-    () => main.eventToCardAdditonCancelBtn(),
-    () => main.eventToCardAdditionConfirmBtn(),
+    () => eventToCardAdditonCancelBtn(),
+    () => eventToCardAdditionConfirmBtn(),
     () => resizeCardInput()
 )()
 

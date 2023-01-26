@@ -19,7 +19,6 @@ const parseColumnData = (columnJSON) => pipe(
         newColumn.id = columnJSON['id'];
         newColumn.name = columnJSON['name'];
         newColumn.cards = columnJSON['cards']
-
         .map((card) => pipe(
                 (newCard) => {
                     newCard.id = card['id'];

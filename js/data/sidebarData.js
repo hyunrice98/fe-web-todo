@@ -34,4 +34,4 @@ const addSidebarBlock = (text, name="jaehyun cho") => pipe(
 
 const sideData = new SidebarData([]);
 
-export {sideData, SidebarData, addSidebarBlock}
+export { sideData, SidebarData, addSidebarBlock }

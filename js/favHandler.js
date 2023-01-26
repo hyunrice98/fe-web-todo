@@ -4,7 +4,7 @@ import { addEvent, pipe } from "./helper/commonFunction.js";
 
 const addColumn = () => pipe(
     ($columnHolder) => $columnHolder.appendChild(getNewColumnTemplate()),
-    () => main.addColumnConfirmController()
+    () => main.eventToColumnConfirmBtn()
 )(document.querySelector("#column_holder"));
 
 const favHandler = () => pipe(
